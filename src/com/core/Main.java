@@ -12,15 +12,15 @@ import java.io.IOException;
 
 public class Main {
 
-	public static Dimension screenSize = new Dimension(400, 600); //GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize();
-
+	public static Dimension monitorSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize();
+	public static Dimension screenSize = new Dimension(675, 750);
 	public static JFrame frame = null;
 	public static Window window = null;
 
 	public static volatile int tickSpeed = 10;
 	public static volatile int renderSpeed = 1;
 
-	public static volatile int tileSize = 40;
+	public static volatile int tileSize = 50;
 
 	public static volatile Point mousePos = new Point(0, 0);
 
@@ -44,10 +44,10 @@ public class Main {
 		frame = new JFrame("Generic Side Scroller Beta v1.0");
 		window = new Window();
 		frame.setUndecorated(true);
-		frame.setSize(screenSize);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.getContentPane().add(window);
+		frame.setBounds((int)(monitorSize.getWidth()/2 - screenSize.getWidth()/2), (int)(monitorSize.getHeight()/2 - screenSize.getHeight()/2), (int)screenSize.getWidth(), (int)screenSize.getHeight());
 		frame.setVisible(true);
 		frame.addKeyListener(new KeyListener() {
 			@Override
@@ -127,9 +127,9 @@ public class Main {
 
 	public static void loadMainMenu() throws IOException {
 		isInLevel = false;
-		currentMenu = new Menu(Util.loadImg("menuRes/mainMenuBg.png"));
-		currentMenu.addButton(Util.loadImg("menuRes/mainMenuLevels.png"), "selectlevel", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 - 110, 200, 100);
-		currentMenu.addButton(Util.loadImg("menuRes/mainMenuExit.png"), "exitgame", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 + 50, 200, 100);
+		currentMenu = new Menu(Util.loadImg("res/menu/menuBG.png"));
+		currentMenu.addButton(Util.loadImg("res/menu/menuButton.png"), "selectlevel", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 - 110, 200, 100);
+		currentMenu.addButton(Util.loadImg("res/menu/menuButton.png"), "exitgame", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 + 50, 200, 100);
 	}
 
 	public static void loadLevelSelectMenu() throws IOException {
