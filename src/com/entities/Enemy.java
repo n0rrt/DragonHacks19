@@ -96,14 +96,14 @@ public class Enemy {
 		g.drawImage(image, 0, 0, (int) width, (int) height, null);
 		g.translate(-x, -y);
 
-		// g.setColor(Color.YELLOW);
-		// g.draw(topHitBox);
-		// g.setColor(Color.ORANGE);
-		// g.draw(bottomHitBox);
-		// g.setColor(Color.BLUE);
-		// g.draw(leftHitBox);
-		// g.setColor(Color.GREEN);
-		// g.draw(rightHitBox);
+//		g.setColor(Color.YELLOW);
+//		g.draw(topHitBox);
+//		g.setColor(Color.ORANGE);
+//		g.draw(bottomHitBox);
+//		g.setColor(Color.BLUE);
+//		g.draw(leftHitBox);
+//		g.setColor(Color.GREEN);
+//		g.draw(rightHitBox);
 	}
 
 	public void update() {
@@ -129,6 +129,15 @@ public class Enemy {
 			}
 		}
 
+		for(Tile t : Main.world.currentFloor.currentRoom.tempTiles)
+			if (t.hasHitBox) {
+				isStoppedTop = topHitBox.intersects(t.hitBox) || isStoppedTop;
+				isStoppedBottom = bottomHitBox.intersects(t.hitBox) || isStoppedBottom;
+				isStoppedLeft = leftHitBox.intersects(t.hitBox) || isStoppedLeft;
+				isStoppedRight = rightHitBox.intersects(t.hitBox) || isStoppedRight;
+
+			}
+
 		double playerXDiff = Main.world.player.x - x;
 		double playerYDiff = Main.world.player.y - y;
 
@@ -141,10 +150,10 @@ public class Enemy {
 		if(xVel > 0 && isStoppedRight){
 			xVel = 0;
 		}
-		if(xVel < 0 && isStoppedTop){
+		if(yVel < 0 && isStoppedTop){
 			yVel = 0;
 		}
-		if(xVel > 0 && isStoppedBottom){
+		if(yVel > 0 && isStoppedBottom){
 			yVel = 0;
 		}
 

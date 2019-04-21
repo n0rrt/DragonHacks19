@@ -134,17 +134,17 @@ public class Projectile {
 			if(this.type == "earth"){
 				System.out.println("Making earth");
 				double t1x = Main.world.player.x;
-				double t1y = Main.world.player.y;
+				double t1y = Main.world.player.y + Main.tileSize/2;
 				double t2x = Main.world.player.x;
-				double t2y = Main.world.player.y;
+				double t2y = Main.world.player.y + Main.tileSize/2;
 
-				if(Main.world.player.xDir == 0){
+				if(Main.world.player.xDir == 0){ // Facing Vertically
 					t1x -= 20;
 					t2x += 20;
-					if(Main.world.player.yDir < 0){
+					if(Main.world.player.yDir < 0){ // Facing Upwards
 						t1y -= 80;
 						t2y -= 80;
-					} else{
+					} else{ // Facing Downwards
 						t1y += 80;
 						t2y += 80;
 					}
@@ -164,8 +164,8 @@ public class Projectile {
 				System.out.println("Tile 1: (" +t1x +", " +t1y +")");
 				System.out.println("Tile 2: (" +t2x +", " +t2y +")");
 
-				Tile t1 = new Tile(image, true, (int)t1y, (int)t1x, 200);
-				Tile t2 = new Tile(image, true, (int)t2y, (int)t2x, 200);
+				Tile t1 = new Tile(image, true, (int)t1x, (int)t1y, 200);
+				Tile t2 = new Tile(image, true, (int)t2x, (int)t2y, 200);
 				Main.world.currentFloor.currentRoom.tempTilesToAdd.add(t1);
 				Main.world.currentFloor.currentRoom.tempTilesToAdd.add(t2);
 				Main.world.currentFloor.currentRoom.projectilesToRemove.add(this);

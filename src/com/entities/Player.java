@@ -70,14 +70,14 @@ public class Player {
 		g.translate(x, y);
 		g.drawImage(image, 0, 0, (int) width, (int) height, null);
 		g.translate(-x, -y);
-//		g.setColor(Color.YELLOW);
-//		g.draw(topHitBox);
-//		g.setColor(Color.ORANGE);
-//		g.draw(bottomHitBox);
-//		g.setColor(Color.BLUE);
-//		g.draw(leftHitBox);
-//		g.setColor(Color.GREEN);
-//		g.draw(rightHitBox);
+		g.setColor(Color.YELLOW);
+		g.draw(topHitBox);
+		g.setColor(Color.ORANGE);
+		g.draw(bottomHitBox);
+		g.setColor(Color.BLUE);
+		g.draw(leftHitBox);
+		g.setColor(Color.GREEN);
+		g.draw(rightHitBox);
 	}
 
 	public void update() {
@@ -98,9 +98,16 @@ public class Player {
 					isStoppedLeft = leftHitBox.intersects(t.hitBox) || isStoppedLeft;
 					isStoppedRight = rightHitBox.intersects(t.hitBox) || isStoppedRight;
 				}
-
 			}
 		}
+
+		for(Tile t : Main.world.currentFloor.currentRoom.tempTiles)
+			if (t.hasHitBox) {
+				isStoppedTop = topHitBox.intersects(t.hitBox) || isStoppedTop;
+				isStoppedBottom = bottomHitBox.intersects(t.hitBox) || isStoppedBottom;
+				isStoppedLeft = leftHitBox.intersects(t.hitBox) || isStoppedLeft;
+				isStoppedRight = rightHitBox.intersects(t.hitBox) || isStoppedRight;
+			}
 
 		isStoppedTop = !topHitBox.intersects(Main.world.worldHitBox) || isStoppedTop;
 		isStoppedBottom = !bottomHitBox.intersects(Main.world.worldHitBox) || isStoppedBottom;
@@ -166,15 +173,24 @@ public class Player {
 		}
 
 		if (canAttack) {
-			if(Window.keys[KeyEvent.VK_NUMPAD0]) {
+			if(Window.keys[KeyEvent.VK_0]) {
 				makeAttack(0);
-			} else if(Window.keys[KeyEvent.VK_NUMPAD1]) {
+			} else if(Window.keys[KeyEvent.VK_1]) {
 				makeAttack(1);
-			} else if(Window.keys[KeyEvent.VK_NUMPAD2]) {
+			} else if(Window.keys[KeyEvent.VK_2]) {
 				makeAttack(2);
-			} else if(Window.keys[KeyEvent.VK_NUMPAD3]) {
+			} else if(Window.keys[KeyEvent.VK_3]) {
 				makeAttack(3);
 			}
+//			if(Window.keys[KeyEvent.VK_NUMPAD0]) {
+//				makeAttack(0);
+//			} else if(Window.keys[KeyEvent.VK_NUMPAD1]) {
+//				makeAttack(1);
+//			} else if(Window.keys[KeyEvent.VK_NUMPAD2]) {
+//				makeAttack(2);
+//			} else if(Window.keys[KeyEvent.VK_NUMPAD3]) {
+//				makeAttack(3);
+//			}
 
 		}
 		x += xVel;

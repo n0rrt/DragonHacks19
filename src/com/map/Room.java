@@ -15,6 +15,8 @@ public class Room {
     public int id;
 
     public static volatile Tile[][] tiles = null;
+    public static volatile int boardOffset = 80;
+
 
     public int width;
     public int height;
@@ -48,7 +50,7 @@ public class Room {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Tile tempTile = new Tile(tempTileImage, false, Main.tileSize*x, Main.tileSize*y);
+                Tile tempTile = new Tile(tempTileImage, false, Main.tileSize*x + boardOffset, Main.tileSize*y + boardOffset);
                 tiles[x][y] = tempTile;
             }
         }

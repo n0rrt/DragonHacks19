@@ -17,8 +17,8 @@ public class Tile {
 	public Tile(BufferedImage image, boolean hasHitBox, int x, int y) {
 		this.image = image;
 		this.hasHitBox = hasHitBox;
-		this.x = x+80;
-		this.y = y+80;
+		this.x = x;//+80;
+		this.y = y;//+80;
 
 		//if (hasHitBox) {
 			hitBox = new Rectangle(this.x, this.y, Main.tileSize, Main.tileSize);
@@ -29,8 +29,8 @@ public class Tile {
 	public Tile(BufferedImage image, boolean hasHitBox, int x, int y, int lifeTime) {
 		this.image = image;
 		this.hasHitBox = hasHitBox;
-		this.x = x+80;
-		this.y = y+80;
+		this.x = x;//+80;
+		this.y = y;//+80;
 		this.lifeTime = lifeTime;
 		//if (hasHitBox) {
 			hitBox = new Rectangle(this.x, this.y, Main.tileSize, Main.tileSize);
