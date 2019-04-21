@@ -3,6 +3,8 @@ package com.core;
 import com.map.World;
 import com.ui.Menu;
 import com.ui.MenuButton;
+import com.ui.StatMenu;
+import res.menu.AbstractMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +17,8 @@ public class Main {
 	public static Dimension monitorSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize();
 	public static Dimension screenSize = new Dimension(600, 700);
 
+	public static volatile AbstractMenu menus[] = new AbstractMenu[2];
+
 	public static JFrame frame = null;
 	public static Window window = null;
 
@@ -26,12 +30,15 @@ public class Main {
 	public static volatile Point mousePos = new Point(0, 0);
 
 	public static volatile World world = null;
-	public static volatile Menu currentMenu = null;
+	public static volatile AbstractMenu currentMenu = null;
 
 	public static volatile boolean isPaused, isInPauseMenu, isInLevel, isLevelSelectionScreen;
 
 	public static void main(String[] args) throws InterruptedException, IOException {
 		System.setProperty("sun.java2d.opengl", "true");
+
+		menus[0] = new Menu(Util.loadImg("res/menu/menuBG.png"));
+		menus[1] = new StatMenu(Util.loadImg("res/menu/menuBG.png"));
 
 		loadMainMenu();
 		makeWindow();
@@ -122,31 +129,8 @@ public class Main {
 
 	public static void loadMainMenu() throws IOException {
 		isInLevel = false;
-		currentMenu = new Menu(Util.loadImg("res/menu/menuBG.png"));
+		currentMenu = menus[0];
 
-		Runnable selectAction = new Runnable() {
-			@Override
-			public void run(){
-				try {
-					Main.world = new World();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				Main.isInLevel = true;
-				Main.currentMenu = null;
-			}
-		};
-		MenuButton selectLevelButton = new MenuButton(Util.loadImg("res/menu/menuButton.png"), "selectlevel", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 - 110, 200, 100,selectAction);
-		currentMenu.addButton(selectLevelButton);
-
-		Runnable exitAction = new Runnable() {
-			@Override
-			public void run(){
-				System.exit(0);
-			}
-		};
-		MenuButton exitGameButton = new MenuButton(Util.loadImg("res/menu/menuButton.png"), "exitgame", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 + 50, 200, 100,exitAction);
-		currentMenu.addButton(exitGameButton);
 	}
 
 //	public static void loadLevelSelectMenu() throws IOException {
@@ -177,7 +161,7 @@ public class Main {
 			isInPauseMenu = false;
 			isPaused = false;
 		} else {
-			currentMenu = new Menu(null);
+			currentMenu = menus[0];//new Menu(null);
 
 			try {
 				Runnable playAction = new Runnable() {
@@ -187,7 +171,7 @@ public class Main {
 					}
 				};
 				MenuButton playButton = new MenuButton(Util.loadImg("menuRes/pauseMenuMainMenu.png"), "mainmenu", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 + 50, 200, 100, playAction);
-				currentMenu.addButton(playButton);
+//				currentMenu.addButton(playButton);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -199,7 +183,7 @@ public class Main {
 					}
 				};
 				MenuButton resumeButton = new MenuButton(Util.loadImg("menuRes/pauseMenuResume.png"), "resumegame", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 - 150, 200, 100,resumeAction);
-				currentMenu.addButton(resumeButton);
+//				currentMenu.addButton(resumeButton);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
