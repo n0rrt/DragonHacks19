@@ -26,9 +26,9 @@ public class Tile {
 
 	public void render(Graphics2D g) {
 		g.drawImage(image, x, y, Main.tileSize, Main.tileSize, null);
-		if(hasHitBox){
+		//if(hasHitBox){
 			//g.setColor(Color.RED);
 			//g.draw(hitBox);
-		}
+		//}
 	}
 }
