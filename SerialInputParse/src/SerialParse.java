@@ -140,7 +140,7 @@ public class SerialParse implements SerialPortEventListener{
 								int[] placeHolder = {0, 0, 0};
 								prevValues.add(placeHolder);
 							}
-							System.out.println(SpellCast.trackSpell(normX, normY, normZ));
+//							System.out.println(SpellCast.trackSpell(normX, normY, normZ));
 							for (int x = 0; x<3; x++)
 							{
 								System.out.print(SpellCast.getPos(normX, normY, normZ)[x]);
