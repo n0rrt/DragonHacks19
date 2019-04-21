@@ -61,27 +61,28 @@ public class MenuButton {
 	}
 
 	public void onClick() throws IOException {
-		if (id.toLowerCase().trim().equals("selectlevel")) {
-			clickAction.run();
-		} else if (id.toLowerCase().trim().equals("levelselectback")) {
-			Main.currentMenu = null;
-			Main.loadMainMenu();
-		} else if (id.toLowerCase().trim().equals("exitgame")) {
-			clickAction.run();
-		} else if (id.toLowerCase().trim().equals("resumegame")) {
-			Main.pause();
-		} else if (id.toLowerCase().trim().equals("mainmenu")) {
-			Main.isPaused = false;
-			Main.isInLevel = false;
-			Main.currentMenu = null;
-			Main.loadMainMenu();
-			World.clear();
-		} else if (id.toLowerCase().trim().startsWith("level:")) {
-			Main.loadWorld(id.substring(6));
-			Main.isPaused = false;
-			Main.isLevelSelectionScreen = false;
-			Main.isInLevel = true;
-			Main.currentMenu = null;
-		}
+		clickAction.run();
+//		if (id.toLowerCase().trim().equals("selectlevel")) {
+//			clickAction.run();
+//		} else if (id.toLowerCase().trim().equals("levelselectback")) {
+//			Main.currentMenu = null;
+//			Main.loadMainMenu();
+//		} else if (id.toLowerCase().trim().equals("exitgame")) {
+//			clickAction.run();
+//		} else if (id.toLowerCase().trim().equals("resumegame")) {
+//			Main.pause();
+//		} else if (id.toLowerCase().trim().equals("mainmenu")) {
+//			Main.isPaused = false;
+//			Main.isInLevel = false;
+//			Main.currentMenu = null;
+//			Main.loadMainMenu();
+//			World.clear();
+//		} else if (id.toLowerCase().trim().startsWith("level:")) {
+//			Main.loadWorld(id.substring(6));
+//			Main.isPaused = false;
+//			Main.isLevelSelectionScreen = false;
+//			Main.isInLevel = true;
+//			Main.currentMenu = null;
+//		}
 	}
 }
