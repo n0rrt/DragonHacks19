@@ -15,7 +15,7 @@ public class Floor {
 
     public void genRooms(int numRooms){
         for(int i = 0; i < numRooms; i++){
-            Room tempRoom = new Room(i, 13, 13);
+            Room tempRoom = new Room(i, 15, 15);
             tempRoom.genContents();
             rooms.add(tempRoom);
         }
@@ -40,5 +40,13 @@ public class Floor {
 
     public void render(Graphics2D g) throws IOException {
         currentRoom.render(g);
+    }
+
+    public void update(){
+        try {
+            currentRoom.update();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

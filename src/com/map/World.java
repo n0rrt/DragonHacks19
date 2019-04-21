@@ -22,7 +22,7 @@ public class World {
 	public World() throws IOException {
 		genFloors();
 		currentFloor = floors.get(0);
-		worldHitBox = new Rectangle((int) Main.window.xOrigin - Main.tileSize, (int) Main.window.yOrigin - Main.tileSize, Main.screenSize.width + Main.tileSize, Main.screenSize.height + Main.tileSize);
+		worldHitBox = new Rectangle((int) Main.window.xOrigin*2, (int) Main.window.yOrigin*2, 600, 600);
 		loadPlayer(currentFloor.currentRoom.tiles[6][6].x, currentFloor.currentRoom.tiles[6][6].y);
 	}
 
@@ -51,7 +51,8 @@ public class World {
 		//g.translate(-(Window.xOrigin - 1), -(Window.yOrigin - 1));
 
 		currentFloor.render(g);
-
+		g.setColor(Color.RED);
+		g.draw(worldHitBox);
 		player.render(g);
 	}
 
@@ -87,10 +88,8 @@ public class World {
 	}
 
 	public void update() throws InterruptedException {
-		worldHitBox.setLocation((int) Main.window.xOrigin - Main.tileSize, (int) Main.window.yOrigin - Main.tileSize);
-		worldHitBox.setSize(Main.screenSize.width + Main.tileSize, Main.screenSize.height + Main.tileSize);
-
 		player.update();
+		currentFloor.update();
 	}
 
 	public void clear() {

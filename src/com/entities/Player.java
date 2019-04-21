@@ -1,6 +1,7 @@
 package com.entities;
 
 import com.core.Main;
+import com.core.Util;
 import com.core.Window;
 import com.map.Tile;
 import com.map.World;
@@ -8,6 +9,7 @@ import com.map.World;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Player {
 
@@ -15,14 +17,14 @@ public class Player {
 	public volatile double x, y, yVel, xVel, baseSpeed, effectiveSpeed, jumpPower, collisionBuffer, width, height, playerBuffer, throwXPower, throwYPower, attackWidth, attackHeight, attackDamage, maxHealth, currentHealth;
 	public volatile Rectangle topHitBox, bottomHitBox, leftHitBox, rightHitBox;
 	public volatile boolean isFalling, isStoppedTop, isStoppedBottom, isStoppedLeft, isStoppedRight, canAttack;
-	public int moving, attackSpeed, attackCooldown, hitBoxBuffer = 3;
+	public int yDir, xDir, attackSpeed, attackCooldown, hitBoxBuffer = 3;
 
 	public Player(BufferedImage image, int x, int y) {
 
 		playerBuffer = 3;
 
-		width = Main.tileSize*1.5; //playerBuffer;
-		height = Main.tileSize*1.5; //* 1.25 - playerBuffer;
+		width = Main.tileSize;
+		height = Main.tileSize*1.5;
 
 		collisionBuffer = 2;
 
@@ -35,10 +37,10 @@ public class Player {
 		throwXPower = 3.5;
 		throwYPower = -5;
 
-		attackWidth = Main.tileSize / 2;
-		attackHeight = Main.tileSize / 2;
+		attackWidth = Main.tileSize;
+		attackHeight = Main.tileSize;
 
-		attackSpeed = 10;
+		attackSpeed = 100;
 		attackCooldown = 0;
 
 		attackDamage = 1;
@@ -46,11 +48,12 @@ public class Player {
 		maxHealth = 100.0;
 		currentHealth = maxHealth;
 
-		moving = 1;
+		yDir = 0;
+		xDir = 1;
 
 		this.image = image;
-		this.x = x;
-		this.y = y;
+		this.x = x + Main.window.xOrigin*2;
+		this.y = y + Main.window.yOrigin*2;
 
 		topHitBox = new Rectangle(x + hitBoxBuffer, y, (int) width - hitBoxBuffer * 2, hitBoxBuffer);
 		bottomHitBox = new Rectangle(x + hitBoxBuffer, y + (int) height - hitBoxBuffer, (int) width - hitBoxBuffer * 2, hitBoxBuffer);
@@ -63,14 +66,14 @@ public class Player {
 		g.translate(x, y);
 		g.drawImage(image, 0, 0, (int) width, (int) height, null);
 		g.translate(-x, -y);
-		//g.setColor(Color.YELLOW);
-		//g.draw(topHitBox);
-		//g.setColor(Color.ORANGE);
-		//g.draw(bottomHitBox);
-		//g.setColor(Color.BLUE);
-		//g.draw(leftHitBox);
-		//g.setColor(Color.GREEN);
-		//g.draw(rightHitBox);
+//		g.setColor(Color.YELLOW);
+//		g.draw(topHitBox);
+//		g.setColor(Color.ORANGE);
+//		g.draw(bottomHitBox);
+//		g.setColor(Color.BLUE);
+//		g.draw(leftHitBox);
+//		g.setColor(Color.GREEN);
+//		g.draw(rightHitBox);
 	}
 
 	public void update() {
@@ -85,7 +88,7 @@ public class Player {
 		isStoppedRight = false;
 		for (Tile[] ta : Main.world.currentFloor.currentRoom.tiles) {
 			for (Tile t : ta) {
-				if (t.hasHitBox && t.isOnScreen) {
+				if (t.hasHitBox) {
 					isStoppedTop = topHitBox.intersects(t.hitBox) || isStoppedTop;
 					isStoppedBottom = bottomHitBox.intersects(t.hitBox) || isStoppedBottom;
 					isStoppedLeft = leftHitBox.intersects(t.hitBox) || isStoppedLeft;
@@ -94,40 +97,60 @@ public class Player {
 
 			}
 		}
+
+		isStoppedTop = !topHitBox.intersects(Main.world.worldHitBox) || isStoppedTop;
+		isStoppedBottom = !bottomHitBox.intersects(Main.world.worldHitBox) || isStoppedBottom;
+		isStoppedLeft = !leftHitBox.intersects(Main.world.worldHitBox) || isStoppedLeft;
+		isStoppedRight = !rightHitBox.intersects(Main.world.worldHitBox) || isStoppedRight;
+
 		if ((isStoppedLeft && isStoppedRight && isStoppedBottom)) {
 			y -= collisionBuffer;
 		}
 
 		xVel = 0;
 
-		if (isStoppedBottom || isStoppedTop) {
-			yVel = 0;
-			if (isStoppedTop) {
-				y += collisionBuffer;
-			}
-		}
+//		if (isStoppedBottom || isStoppedTop) {
+//			yVel = 0;
+//			if (isStoppedTop) {
+//				y += collisionBuffer;
+//			}
+//		}
 
 		//---=== MOVEMENT ===---
 		if (Window.keys[KeyEvent.VK_W] && !isStoppedTop) {
 			yVel = -effectiveSpeed;
+			yDir = -1;
+			xDir = 0;
 		}
 
-		if (Window.keys[KeyEvent.VK_S] && !isStoppedTop) {
+		if (Window.keys[KeyEvent.VK_S] && !isStoppedBottom) {
 			yVel = effectiveSpeed;
+			yDir = 1;
+			xDir = 0;
 		}
 
 		if (Window.keys[KeyEvent.VK_A] && !isStoppedLeft) {
 			xVel = -effectiveSpeed;
+			xDir = -1;
+			yDir = 0;
 		}
 
 		if (Window.keys[KeyEvent.VK_D] && !isStoppedRight) {
 			xVel = effectiveSpeed;
+			xDir = 1;
+			yDir = 0;
 		}
 
-		if (Window.keys[KeyEvent.VK_SPACE] && canAttack) {
-			Main.world.currentFloor.currentRoom.projectilesToAdd.add(new Projectile(x, y, throwXPower * moving, throwYPower - (Math.random() + 1) * 2, attackWidth, attackHeight, attackDamage, true, true, true, 150, image));
-			canAttack = false;
-			attackCooldown = attackSpeed;
+		if (canAttack) {
+			if(Window.keys[KeyEvent.VK_NUMPAD0]) {
+				makeAttack(0);
+			} else if(Window.keys[KeyEvent.VK_NUMPAD1]) {
+				makeAttack(1);
+			} else if(Window.keys[KeyEvent.VK_NUMPAD2]) {
+				makeAttack(2);
+			} else if(Window.keys[KeyEvent.VK_NUMPAD3]) {
+				makeAttack(3);
+			}
 
 		}
 		x += xVel;
@@ -136,8 +159,6 @@ public class Player {
 		xVel = 0;
 		yVel = 0;
 
-		isFalling = !isStoppedBottom;
-
 //		Main.window.xOrigin = x - Main.screenSize.width / 2;
 //		Main.window.yOrigin = y - (Main.screenSize.height / 3) * 2;
 
@@ -145,5 +166,47 @@ public class Player {
 		bottomHitBox.setLocation((int) x + hitBoxBuffer, (int) y + (int) height - hitBoxBuffer);
 		leftHitBox.setLocation((int) x, (int) y + hitBoxBuffer);
 		rightHitBox.setLocation((int) x + (int) width - hitBoxBuffer, (int) y + hitBoxBuffer);
+	}
+
+	public void makeAttack(int type){
+		if(type == 0){
+			BufferedImage fireImage = null;
+			try {
+				fireImage = Util.loadImg("res/spells/fireball.png");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Projectile fireProjectile = new Projectile(x, y, 1*xDir, 1*yDir, attackWidth, attackHeight, attackDamage, false, true, false, 1500, fireImage);
+			Main.world.currentFloor.currentRoom.projectilesToAdd.add(fireProjectile);
+		} else if(type == 1){
+			BufferedImage lightningImage = null;
+			try {
+				lightningImage = Util.loadImg("res/spells/lightningbolt.png");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Projectile lightningProjectile = new Projectile(x, y, 1*xDir, 1*yDir, attackWidth, attackHeight, attackDamage, true, true, true, 1500, lightningImage);
+			Main.world.currentFloor.currentRoom.projectilesToAdd.add(lightningProjectile);
+		} else if(type == 2){
+			BufferedImage windImage = null;
+			try {
+				windImage = Util.loadImg("res/spells/wind.png");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Projectile windProjectile = new Projectile(x, y, 1*xDir, 1*yDir, attackWidth, attackHeight, attackDamage, true, true, true, 1500, windImage);
+			Main.world.currentFloor.currentRoom.projectilesToAdd.add(windProjectile);
+		} else if(type == 3){
+			BufferedImage earthImage = null;
+			try {
+				earthImage = Util.loadImg("res/spells/stone.png");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Projectile earthProjectile = new Projectile(x, y, 1*xDir, 1*yDir, attackWidth, attackHeight, attackDamage, true, true, true, 1500, earthImage);
+			Main.world.currentFloor.currentRoom.projectilesToAdd.add(earthProjectile);
+		}
+			canAttack = false;
+		attackCooldown = attackSpeed;
 	}
 }
