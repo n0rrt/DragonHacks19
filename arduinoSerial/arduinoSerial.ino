@@ -31,6 +31,6 @@ void loop() {
     Serial.print("\t");
     Serial.print(buttonState);
     Serial.print("\n");
-    delay(500);
+    delay(100);
   }
 }

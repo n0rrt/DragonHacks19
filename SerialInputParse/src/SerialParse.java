@@ -6,7 +6,7 @@ import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent; 
 import gnu.io.SerialPortEventListener; 
 import java.util.Enumeration;
-
+import java.util.ArrayList;
 public class SerialParse implements SerialPortEventListener{
 	SerialPort serialPort;
 	
@@ -21,13 +21,14 @@ public class SerialParse implements SerialPortEventListener{
 	int[] xVals = new int[10];
 	int[] yVals = new int[10];
 	int[] zVals = new int[10];
-	
+	static ArrayList<int[]> prevValues = new ArrayList<int[]>();
 	int avgX;
 	int avgY;
 	int avgZ;
 	int totalX = 0;
 	int totalY = 0;
 	int totalZ = 0;
+	static int runCount = 0;
 	public void initialize()
 	{
 		CommPortIdentifier portId = null;
@@ -121,7 +122,7 @@ public class SerialParse implements SerialPortEventListener{
 							avgY = (int)Math.floor(totalY / yVals.length);
 							avgZ = (int)Math.floor(totalZ / zVals.length);
 							int[] averages = {avgX, avgY, avgZ};
-							//int[] averages = SpellCast.normalize(Integer.parseInt(chunks[0]), Integer.parseInt(chunks[1]), Integer.parseInt(chunks[2]));
+//							int[] averages = SpellCast.normalize(Integer.parseInt(chunks[0]), Integer.parseInt(chunks[1]), Integer.parseInt(chunks[2]));
 							int normX = Integer.parseInt(chunks[0]) - averages[0];
 							int normY = Integer.parseInt(chunks[1]) - averages[1];
 							int normZ = Integer.parseInt(chunks[2]) - averages[2];
@@ -130,9 +131,25 @@ public class SerialParse implements SerialPortEventListener{
 //							System.out.println("Averages");
 //							SpellCast.trackSpell(averages[0], averages[1], averages[2], Integer.parseInt(chunks[3]));
 //							System.out.println("Norm");
-							SpellCast.trackSpell(normX, normY, normZ, Integer.parseInt(chunks[3]));
+							try {
+								prevValues.add(SpellCast.getPos(normX, normY, normZ));
+							}
+							catch(Exception e){
+								int[] placeHolder = {0, 0, 0};
+								prevValues.add(placeHolder);
+							}
+							System.out.println(SpellCast.trackSpell(normX, normY, normZ));
+							for (int x = 0; x<3; x++)
+							{
+								System.out.print(SpellCast.getPos(normX, normY, normZ)[x]);
+								System.out.print("\t");
+							}
+							System.out.println();
 							//System.out.println(inputLine);
 //							System.out.println(chunks[0] + "\t" + chunks[1] + "\t" + chunks[2] + "\t");
+							
+							System.out.println("Run count: " + runCount);
+							runCount++;
 						}
 						
 					}
