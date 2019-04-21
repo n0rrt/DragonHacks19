@@ -19,10 +19,10 @@ public class SpellCast {
 
 	static double timeStep = 0.1;
 
-	static final String LightningString = "Lightning";
-	static final String FireString = "Fire";
-	static final String EarthString = "Earth";
-	static final String WindString = "Wind";
+	static final int FIREID = 0;
+	static final int LIGHTNINGID = 1;
+	static final int WINDID = 2;
+	static final int EARTHID = 3;
 
 	static int[] posTuple = new int[3];
 
