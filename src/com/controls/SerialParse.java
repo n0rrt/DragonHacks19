@@ -1,24 +1,22 @@
-package com.controls;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import gnu.io.CommPortIdentifier;
+import gnu.io.CommPortIdentifier; 
 import gnu.io.SerialPort;
-import gnu.io.SerialPortEvent;
-import gnu.io.SerialPortEventListener;
+import gnu.io.SerialPortEvent; 
+import gnu.io.SerialPortEventListener; 
 import java.util.Enumeration;
 import java.util.ArrayList;
 public class SerialParse implements SerialPortEventListener{
 	SerialPort serialPort;
-
-	private static final String PORT_NAMES[] = {"COM4"};
-
+	
+	private static final String PORT_NAMES[] = {"COM9"};
+	
 	private static BufferedReader input;
 	private OutputStream output;
 	private static final int TIME_OUT = 2000;
 	private static final int DATA_RATE = 9600;
-
+	
 	int i = 0;
 	int[] xVals = new int[10];
 	int[] yVals = new int[10];
@@ -35,7 +33,7 @@ public class SerialParse implements SerialPortEventListener{
 	{
 		CommPortIdentifier portId = null;
 		Enumeration<?> portEnum = CommPortIdentifier.getPortIdentifiers();
-
+		
 		while(portEnum.hasMoreElements())
 		{
 			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
@@ -44,7 +42,7 @@ public class SerialParse implements SerialPortEventListener{
 				if (currPortId.getName().equals(portName))
 				{
 					portId = currPortId;
-
+					
 					break;
 				}
 			}
@@ -55,18 +53,18 @@ public class SerialParse implements SerialPortEventListener{
 			System.out.println("Could not find Port");
 			return;
 		}
-
-		try
+		
+		try 
 		{
 			serialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
 			serialPort.setSerialPortParams(DATA_RATE,
-					SerialPort.DATABITS_8,
-					SerialPort.STOPBITS_1,
-					SerialPort.PARITY_NONE);
-
+										SerialPort.DATABITS_8,
+										SerialPort.STOPBITS_1,
+										SerialPort.PARITY_NONE);
+					
 			input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
 			output = serialPort.getOutputStream();
-
+			
 			serialPort.addEventListener(this);
 			serialPort.notifyOnDataAvailable(true);
 		}
@@ -74,16 +72,16 @@ public class SerialParse implements SerialPortEventListener{
 		{
 			System.err.println(e.toString());
 		}
-
+		
 	}
 	public void close()
 	{
 		synchronized(serialPort){
-			if (serialPort != null)
-			{
-				serialPort.removeEventListener();
-				serialPort.close();
-			}
+		if (serialPort != null)
+		{
+			serialPort.removeEventListener();
+			serialPort.close();
+		}
 		}
 	}
 	public void serialEvent(SerialPortEvent oEvent)
@@ -91,21 +89,21 @@ public class SerialParse implements SerialPortEventListener{
 		synchronized(oEvent){
 			if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE)
 			{
-
+				
 				try
 				{
-
+					
 					String inputLine = null;
-
+					
 					if (input.ready())
 					{
-
+						
 						inputLine = input.readLine();
-
-
-
-
-
+						
+						
+						
+						
+						
 						String[] chunks = inputLine.split("\t");
 						if (i < 10)
 						{
@@ -140,7 +138,7 @@ public class SerialParse implements SerialPortEventListener{
 								int[] placeHolder = {0, 0, 0};
 								prevValues.add(placeHolder);
 							}
-//							System.out.println(SpellCast.trackSpell(normX, normY, normZ));
+							System.out.println(SpellCast.trackSpell(normX, normY, normZ));
 							for (int x = 0; x<3; x++)
 							{
 								System.out.print(SpellCast.getPos(normX, normY, normZ)[x]);
@@ -149,28 +147,37 @@ public class SerialParse implements SerialPortEventListener{
 							System.out.println();
 							//System.out.println(inputLine);
 //							System.out.println(chunks[0] + "\t" + chunks[1] + "\t" + chunks[2] + "\t");
-
+							
 							System.out.println("Run count: " + runCount);
 							runCount++;
 						}
-
+						
 					}
-
+					
 				}
 				catch (Exception e)
 				{
 					System.err.println(e.toString());
-
+					
 				}
 			}
-
+			
 		}
 	}
-
-	public static void serialParseInit() throws Exception
+	
+	public static void main(String args[]) throws Exception
 	{
 		SerialParse m = new SerialParse();
 		m.initialize();
+		/*Thread t = new Thread()
+		{
+			public void run()
+			{
+				
+				
+			}
+		};
+		t.start();*/
 		System.out.println("Started");
 	}
 }
