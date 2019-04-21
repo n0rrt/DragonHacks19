@@ -13,7 +13,7 @@ import java.io.IOException;
 public class Main {
 
 	public static Dimension monitorSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize();
-	public static Dimension screenSize = new Dimension(600, 700);
+	public static Dimension screenSize = new Dimension(680, 780);
 
 	public static JFrame frame = null;
 	public static Window window = null;
