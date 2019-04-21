@@ -1,9 +1,10 @@
-package com.controls;
+//package com.controls;
+//
+//import com.core.Main;
 
-import com.core.Main;
 
-import java.util.Arrays;
-
+import java.util.ArrayList;
+import java.util.Collections;
 public class SpellCast {
 	static double velXi = 0;
 	static double velYi = 0;
@@ -29,8 +30,8 @@ public class SpellCast {
 	static final int EARTHID = 3;
 
 	static int[] posTuple = new int[3];
-
-	public static int trackSpell(int x, int y, int z) {
+	static ArrayList<Integer> confidenceValues= new ArrayList<Integer>();
+	public static void trackSpell(int x, int y, int z) {
 		//int[] startPos = {0, 0, 0};
 		int[] threshold = { 1, 1, 1 };
 		
@@ -64,33 +65,40 @@ public class SpellCast {
 					|| lessThan((sub(add(SerialParse.prevValues.get(i), threshold), lightning[i])), threshold)
 					|| lessThan((sub(sub(SerialParse.prevValues.get(i), threshold), lightning[i])), threshold)) {
 				lightConfidence++;
-				SerialParse.prevValues.set();
+				
 			}
 			if(SerialParse.prevValues.get(i).equals((fire[i]))
 					|| lessThan((sub(add(SerialParse.prevValues.get(i), threshold), fire[i])), threshold)
 					|| lessThan((sub(sub(SerialParse.prevValues.get(i), threshold), fire[i])), threshold))
 			{
 				fireConfidence++;
-				SerialParse.prevValues.clear();
+				
 			}
 			if(SerialParse.prevValues.get(i).equals((earth[i]))
 					|| lessThan((sub(add(SerialParse.prevValues.get(i), threshold), earth[i])), threshold)
 					|| lessThan((sub(sub(SerialParse.prevValues.get(i), threshold), earth[i])), threshold))
 			{
 				earthConfidence++;
-				SerialParse.prevValues.clear();
+				
 			}
 			if(SerialParse.prevValues.get(i).equals((wind[i]))
 					|| lessThan((sub(add(SerialParse.prevValues.get(i), threshold), wind[i])), threshold)
 					|| lessThan((sub(sub(SerialParse.prevValues.get(i), threshold), wind[i])), threshold))
 			{
 				windConfidence++;
-				SerialParse.prevValues.clear();
+				
 			}
+			
 		}
-
-		Main.world.player.caster.castSpell(0);
-		return 0;
+		confidenceValues.add(fireConfidence);
+		confidenceValues.add(lightConfidence);
+		confidenceValues.add(windConfidence);
+		confidenceValues.add(earthConfidence);
+		
+		int maxVal = confidenceValues.indexOf(Collections.max(confidenceValues));
+		
+		Main.world.player.caster.castSpell(maxVal);
+		
 		
 
 	}

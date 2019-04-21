@@ -1,4 +1,4 @@
-package com.controls;
+//package com.controls;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -167,7 +167,7 @@ public class SerialParse implements SerialPortEventListener{
 		}
 	}
 	
-	public static void serialParseInit() throws Exception
+	public static void main(String args[]) throws Exception
 	{
 		SerialParse m = new SerialParse();
 		m.initialize();
