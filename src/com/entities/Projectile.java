@@ -120,9 +120,11 @@ public class Projectile {
 
 			if(this.type == "fire"){
 				if(e.topHitBox.intersects(hitBox) || e.bottomHitBox.intersects(hitBox) || e.leftHitBox.intersects(hitBox) || e.rightHitBox.intersects(hitBox)){
-					e.currentHealth -= damage;
-					explodeFire();
-					Main.world.currentFloor.currentRoom.projectilesToRemove.add(this);
+					if(this.canHarmEnemy) {
+						e.currentHealth -= damage;
+						explodeFire();
+						Main.world.currentFloor.currentRoom.projectilesToRemove.add(this);
+					}
 				}
 			}
 			if(this.type == "firedrop"){

@@ -5,6 +5,7 @@ import com.core.Main;
 import com.core.Util;
 import com.entities.Enemy;
 import com.entities.Projectile;
+import com.entities.Red_Wizard;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -58,14 +59,10 @@ public class Room {
 
     public void spawnEnemies(){
         try {// This was more just memeing about
-            BufferedImage temp_im = Math.random() > .5 ? Util.loadImg("res/enemy/red_wizard.png") : Util.loadImg("res/enemy/dog.png");
-            Enemy e = new Enemy(temp_im, Main.world.currentFloor.currentRoom.tiles[14][14].x, Main.world.currentFloor.currentRoom.tiles[14][14].y);
-            temp_im = Math.random() > .5 ? Util.loadImg("res/enemy/red_wizard.png") : Util.loadImg("res/enemy/dog.png");
-            Enemy e1 = new Enemy(temp_im, Main.world.currentFloor.currentRoom.tiles[0][0].x, Main.world.currentFloor.currentRoom.tiles[0][0].y);
-            temp_im = Math.random() > .5 ? Util.loadImg("res/enemy/red_wizard.png") : Util.loadImg("res/enemy/dog.png");
-            Enemy e2 = new Enemy(temp_im, Main.world.currentFloor.currentRoom.tiles[14][0].x, Main.world.currentFloor.currentRoom.tiles[14][0].y);
-            temp_im = Math.random() > .5 ? Util.loadImg("res/enemy/red_wizard.png") : Util.loadImg("res/enemy/dog.png");
-            Enemy e3 = new Enemy(temp_im, Main.world.currentFloor.currentRoom.tiles[0][14].x, Main.world.currentFloor.currentRoom.tiles[0][14].y);
+            Enemy e = new Red_Wizard(Util.loadImg("res/enemy/red_wizard.png"), Main.world.currentFloor.currentRoom.tiles[14][14].x, Main.world.currentFloor.currentRoom.tiles[14][14].y);
+            Enemy e1 = new Enemy(Util.loadImg("res/enemy/dog.png"), Main.world.currentFloor.currentRoom.tiles[0][0].x, Main.world.currentFloor.currentRoom.tiles[0][0].y);
+            Enemy e2 = new Enemy(Util.loadImg("res/enemy/dog.png"), Main.world.currentFloor.currentRoom.tiles[14][0].x, Main.world.currentFloor.currentRoom.tiles[14][0].y);
+            Enemy e3 = new Enemy(Util.loadImg("res/enemy/dog.png"), Main.world.currentFloor.currentRoom.tiles[0][14].x, Main.world.currentFloor.currentRoom.tiles[0][14].y);
             enemiesToAdd.add(e);
             enemiesToAdd.add(e1);
             enemiesToAdd.add(e2);
