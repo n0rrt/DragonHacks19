@@ -1,7 +1,6 @@
 package com.ui;
 
 import com.core.Util;
-import res.menu.AbstractMenu;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

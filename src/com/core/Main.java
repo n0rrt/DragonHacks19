@@ -4,12 +4,11 @@ import com.map.World;
 import com.ui.Menu;
 import com.ui.MenuButton;
 import com.ui.StatMenu;
-import res.menu.AbstractMenu;
+import com.ui.AbstractMenu;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.io.IOException;
 
 public class Main {

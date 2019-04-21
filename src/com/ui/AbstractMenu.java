@@ -1,4 +1,4 @@
-package res.menu;
+package com.ui;
 
 import com.core.Main;
 import com.ui.MenuButton;

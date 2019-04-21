@@ -2,15 +2,10 @@ package com.ui;
 
 import com.core.Main;
 import com.core.Util;
-import com.core.Window;
 import com.map.World;
-import res.menu.AbstractMenu;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Menu extends AbstractMenu {
 
@@ -49,7 +44,7 @@ public class Menu extends AbstractMenu {
 			}
 		};
 		try{
-			MenuButton exitGameButton = new MenuButton(Util.loadImg("res/menu/menuButton.png"), "exitgame", Main.screenSize.getWidth() / 2 - 100, Main.screenSize.getHeight() / 2 + 50, 200, 100,exitAction);
+			MenuButton exitGameButton = new MenuButton(Util.loadImg("res/menu/exitbutton.png"), "exitgame", Main.screenSize.getWidth() / 2 - 100, Main.screenSize.getHeight() / 2 + 50, 200, 100,exitAction);
 			addButton(exitGameButton);
 		}catch( IOException e){
 			e.printStackTrace();

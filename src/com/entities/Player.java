@@ -70,14 +70,14 @@ public class Player {
 		g.translate(x, y);
 		g.drawImage(image, 0, 0, (int) width, (int) height, null);
 		g.translate(-x, -y);
-		g.setColor(Color.YELLOW);
-		g.draw(topHitBox);
-		g.setColor(Color.ORANGE);
-		g.draw(bottomHitBox);
-		g.setColor(Color.BLUE);
-		g.draw(leftHitBox);
-		g.setColor(Color.GREEN);
-		g.draw(rightHitBox);
+//		g.setColor(Color.YELLOW);
+//		g.draw(topHitBox);
+//		g.setColor(Color.ORANGE);
+//		g.draw(bottomHitBox);
+//		g.setColor(Color.BLUE);
+//		g.draw(leftHitBox);
+//		g.setColor(Color.GREEN);
+//		g.draw(rightHitBox);
 	}
 
 	public void update() {
