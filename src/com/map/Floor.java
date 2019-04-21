@@ -15,7 +15,7 @@ public class Floor {
 
     public void genRooms(int numRooms){
         for(int i = 0; i < numRooms; i++){
-            Room tempRoom = new Room(i);
+            Room tempRoom = new Room(i, 13, 13);
             tempRoom.genContents();
             rooms.add(tempRoom);
         }

@@ -133,8 +133,8 @@ public class Player {
 		x += xVel;
 		y += yVel;
 
-//		xVel = 0;
-//		yVel = 0;
+		xVel = 0;
+		yVel = 0;
 
 		isFalling = !isStoppedBottom;
 
