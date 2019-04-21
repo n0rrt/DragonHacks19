@@ -8,7 +8,6 @@ import com.entities.Projectile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -40,7 +39,8 @@ public class Room {
             for(int y = 0; y < height; y++){
                 BufferedImage tempTileImage = null;
                 try {
-                    tempTileImage = Util.loadImg("res/level/tile.png");
+                    String imgStr = "res/level/tile" +((int)(Math.random() * 4) + 1) +".png";
+                    tempTileImage = Util.loadImg(imgStr);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

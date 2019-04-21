@@ -49,8 +49,8 @@ public class Player {
 		moving = 1;
 
 		this.image = image;
-		this.x = x;
-		this.y = y;
+		this.x = x + Main.window.xOrigin*2;
+		this.y = y + Main.window.yOrigin*2;
 
 		topHitBox = new Rectangle(x + hitBoxBuffer, y, (int) width - hitBoxBuffer * 2, hitBoxBuffer);
 		bottomHitBox = new Rectangle(x + hitBoxBuffer, y + (int) height - hitBoxBuffer, (int) width - hitBoxBuffer * 2, hitBoxBuffer);
@@ -63,14 +63,14 @@ public class Player {
 		g.translate(x, y);
 		g.drawImage(image, 0, 0, (int) width, (int) height, null);
 		g.translate(-x, -y);
-		//g.setColor(Color.YELLOW);
-		//g.draw(topHitBox);
-		//g.setColor(Color.ORANGE);
-		//g.draw(bottomHitBox);
-		//g.setColor(Color.BLUE);
-		//g.draw(leftHitBox);
-		//g.setColor(Color.GREEN);
-		//g.draw(rightHitBox);
+//		g.setColor(Color.YELLOW);
+//		g.draw(topHitBox);
+//		g.setColor(Color.ORANGE);
+//		g.draw(bottomHitBox);
+//		g.setColor(Color.BLUE);
+//		g.draw(leftHitBox);
+//		g.setColor(Color.GREEN);
+//		g.draw(rightHitBox);
 	}
 
 	public void update() {
@@ -85,7 +85,7 @@ public class Player {
 		isStoppedRight = false;
 		for (Tile[] ta : Main.world.currentFloor.currentRoom.tiles) {
 			for (Tile t : ta) {
-				if (t.hasHitBox && t.isOnScreen) {
+				if (t.hasHitBox) {
 					isStoppedTop = topHitBox.intersects(t.hitBox) || isStoppedTop;
 					isStoppedBottom = bottomHitBox.intersects(t.hitBox) || isStoppedBottom;
 					isStoppedLeft = leftHitBox.intersects(t.hitBox) || isStoppedLeft;
@@ -94,25 +94,31 @@ public class Player {
 
 			}
 		}
+
+		isStoppedTop = !topHitBox.intersects(Main.world.worldHitBox) || isStoppedTop;
+		isStoppedBottom = !bottomHitBox.intersects(Main.world.worldHitBox) || isStoppedBottom;
+		isStoppedLeft = !leftHitBox.intersects(Main.world.worldHitBox) || isStoppedLeft;
+		isStoppedRight = !rightHitBox.intersects(Main.world.worldHitBox) || isStoppedRight;
+
 		if ((isStoppedLeft && isStoppedRight && isStoppedBottom)) {
 			y -= collisionBuffer;
 		}
 
 		xVel = 0;
 
-		if (isStoppedBottom || isStoppedTop) {
-			yVel = 0;
-			if (isStoppedTop) {
-				y += collisionBuffer;
-			}
-		}
+//		if (isStoppedBottom || isStoppedTop) {
+//			yVel = 0;
+//			if (isStoppedTop) {
+//				y += collisionBuffer;
+//			}
+//		}
 
 		//---=== MOVEMENT ===---
 		if (Window.keys[KeyEvent.VK_W] && !isStoppedTop) {
 			yVel = -effectiveSpeed;
 		}
 
-		if (Window.keys[KeyEvent.VK_S] && !isStoppedTop) {
+		if (Window.keys[KeyEvent.VK_S] && !isStoppedBottom) {
 			yVel = effectiveSpeed;
 		}
 
@@ -135,8 +141,6 @@ public class Player {
 
 		xVel = 0;
 		yVel = 0;
-
-		isFalling = !isStoppedBottom;
 
 //		Main.window.xOrigin = x - Main.screenSize.width / 2;
 //		Main.window.yOrigin = y - (Main.screenSize.height / 3) * 2;
