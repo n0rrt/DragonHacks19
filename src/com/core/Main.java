@@ -128,26 +128,42 @@ public class Main {
 	public static void loadMainMenu() throws IOException {
 		isInLevel = false;
 		currentMenu = new Menu(Util.loadImg("res/menu/menuBG.png"));
-		currentMenu.addButton(Util.loadImg("res/menu/menuButton.png"), "selectlevel", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 - 110, 200, 100);
-		currentMenu.addButton(Util.loadImg("res/menu/menuButton.png"), "exitgame", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 + 50, 200, 100);
+
+		Runnable selectAction = new Runnable() {
+			@Override
+			public void run(){
+				Main.currentMenu = null;
+			}
+		};
+		MenuButton selectLevelButton = new MenuButton(Util.loadImg("res/menu/menuButton.png"), "selectlevel", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 - 110, 200, 100,selectAction);
+		currentMenu.addButton(selectLevelButton);
+
+		Runnable exitAction = new Runnable() {
+			@Override
+			public void run(){
+				System.exit(0);
+			}
+		};
+		MenuButton exitGameButton = new MenuButton(Util.loadImg("res/menu/menuButton.png"), "exitgame", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 + 50, 200, 100,exitAction);
+		currentMenu.addButton(exitGameButton);
 	}
 
-	public static void loadLevelSelectMenu() throws IOException {
-		isLevelSelectionScreen = true;
-		currentMenu = new Menu(Util.loadImg("menuRes/levelSelectionBg.png"));
-
-		//String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "Levels";
-		String path = "C:\\Users\\Plane\\Desktop\\My Stuff\\Programming\\Misc\\SideScroller\\src\\levels";
-		System.out.println(path);
-		File f = new File(path);
-		File[] fileArray = f.listFiles();
-		int tempY = 200;
-		for (File fi : fileArray) {
-			currentMenu.addButton(fi.getName(), "level:" + fi.getName(), 100, tempY, 200, 100);
-			tempY += MenuButton.fontSize + 10;
-		}
-		currentMenu.addButton(Util.loadImg("MenuRes/levelSelectionBack.png"), "levelselectback", 0, screenSize.getHeight() - 100, 200, 100);
-	}
+//	public static void loadLevelSelectMenu() throws IOException {
+//		isLevelSelectionScreen = true;
+//		currentMenu = new Menu(Util.loadImg("menuRes/levelSelectionBg.png"));
+//
+//		//String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "Levels";
+//		String path = "C:\\Users\\Plane\\Desktop\\My Stuff\\Programming\\Misc\\SideScroller\\src\\levels";
+//		System.out.println(path);
+//		File f = new File(path);
+//		File[] fileArray = f.listFiles();
+//		int tempY = 200;
+//		for (File fi : fileArray) {
+//			currentMenu.addButton(fi.getName(), "level:" + fi.getName(), 100, tempY, 200, 100);
+//			tempY += MenuButton.fontSize + 10;
+//		}
+//		currentMenu.addButton(Util.loadImg("MenuRes/levelSelectionBack.png"), "levelselectback", 0, screenSize.getHeight() - 100, 200, 100);
+//	}
 
 	public static void loadWorld(String level) throws IOException {
 		world = new World(level);
@@ -163,12 +179,26 @@ public class Main {
 			currentMenu = new Menu(null);
 
 			try {
-				currentMenu.addButton(Util.loadImg("menuRes/pauseMenuMainMenu.png"), "mainmenu", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 + 50, 200, 100);
+				Runnable playAction = new Runnable() {
+					@Override
+					public void run(){
+						//play actions
+					}
+				};
+				MenuButton playButton = new MenuButton(Util.loadImg("menuRes/pauseMenuMainMenu.png"), "mainmenu", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 + 50, 200, 100, playAction);
+				currentMenu.addButton(playButton);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 			try {
-				currentMenu.addButton(Util.loadImg("menuRes/pauseMenuResume.png"), "resumegame", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 - 150, 200, 100);
+				Runnable resumeAction = new Runnable() {
+					@Override
+					public void run() {
+						// Resume Game Action
+					}
+				};
+				MenuButton resumeButton = new MenuButton(Util.loadImg("menuRes/pauseMenuResume.png"), "resumegame", screenSize.getWidth() / 2 - 100, screenSize.getHeight() / 2 - 150, 200, 100,resumeAction);
+				currentMenu.addButton(resumeButton);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

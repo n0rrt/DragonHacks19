@@ -16,8 +16,9 @@ public class MenuButton {
 	public volatile Rectangle hitBox = null;
 	public volatile BufferedImage image = null;
 	public volatile boolean shouldRender, isImage = false;
+	public volatile Runnable clickAction = null;
 
-	public MenuButton(Object image, String id, double x, double y, double width, double height) {
+	public MenuButton(Object image, String id, double x, double y, double width, double height, Runnable clickAction) {
 		if (image instanceof String) {
 			isImage = false;
 			this.imgString = (String) image;
@@ -25,6 +26,7 @@ public class MenuButton {
 			isImage = true;
 			this.image = (BufferedImage) image;
 		}
+		this.clickAction = clickAction;
 		this.shouldRender = true;
 		this.id = id;
 		this.x = x;
@@ -39,11 +41,11 @@ public class MenuButton {
 			Rectangle r = new Rectangle(0, 100, (int) Main.screenSize.getWidth(), (int) Main.screenSize.getHeight() - 300 - (int)fontSize);
 			shouldRender = r.contains(new Point((int) x, (int) y));
 		}else {
-			
+
 		}
 		if (shouldRender) {
 			AffineTransform old = g.getTransform();
-			
+
 			g.translate(x + Window.xOrigin, y + Window.yOrigin);
 			if (!isImage) {
 				g.setColor(Color.ORANGE.darker());
@@ -60,8 +62,7 @@ public class MenuButton {
 
 	public void onClick() throws IOException {
 		if (id.toLowerCase().trim().equals("selectlevel")) {
-			Main.currentMenu = null;
-			Main.loadLevelSelectMenu();
+			clickAction.run();
 		} else if (id.toLowerCase().trim().equals("levelselectback")) {
 			Main.currentMenu = null;
 			Main.loadMainMenu();
