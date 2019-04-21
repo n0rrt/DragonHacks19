@@ -83,7 +83,7 @@ public class Player {
 		isStoppedBottom = false;
 		isStoppedLeft = false;
 		isStoppedRight = false;
-		for (Tile[] ta : World.tiles) {
+		for (Tile[] ta : World.currentFloor.currentRoom.tiles) {
 			for (Tile t : ta) {
 				if (t.hasHitBox && t.isOnScreen) {
 					isStoppedTop = topHitBox.intersects(t.hitBox) || isStoppedTop;
@@ -122,7 +122,7 @@ public class Player {
 			moving = 1;
 		}
 		if (Window.keys[KeyEvent.VK_SPACE] && canAttack) {
-			World.projectilesToAdd.add(new Projectile(x, y, throwXPower * moving, throwYPower - (Math.random() + 1) * 2, attackWidth, attackHeight, attackDamage, true, true, true, 150, image));
+			World.currentFloor.currentRoom.projectilesToAdd.add(new Projectile(x, y, throwXPower * moving, throwYPower - (Math.random() + 1) * 2, attackWidth, attackHeight, attackDamage, true, true, true, 150, image));
 			canAttack = false;
 			attackCooldown = attackSpeed;
 

@@ -57,7 +57,7 @@ public class Projectile {
 
 	public void update() {
 		if (lifeTime <= 0) {
-			World.projectilesToRemove.add(this);
+			World.currentFloor.currentRoom.projectilesToRemove.add(this);
 			return;
 		}
 
@@ -74,7 +74,7 @@ public class Projectile {
 		}
 
 		if (isOnScreen) {
-			for (Tile[] ta : World.tiles) {
+			for (Tile[] ta : World.currentFloor.currentRoom.tiles) {
 				for (Tile t : ta) {
 					if (t.hasHitBox) {
 						if (t.hitBox.intersects(hitBox)) {

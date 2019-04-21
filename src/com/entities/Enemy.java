@@ -91,14 +91,14 @@ public class Enemy {
 
 	public void update() {
 		if (currentHealth <= 0) {
-			World.enemiesToRemove.add(this);
+			World.currentFloor.currentRoom.enemiesToRemove.add(this);
 		}
 		isStoppedTop = false;
 		isStoppedBottom = false;
 		isStoppedLeft = false;
 		isStoppedRight = false;
 
-		for (Tile[] ta : World.tiles) {
+		for (Tile[] ta : World.currentFloor.currentRoom.tiles) {
 			for (Tile t : ta) {
 				if (t.hasHitBox) {
 					isStoppedTop = topHitBox.intersects(t.hitBox) || isStoppedTop;
@@ -139,16 +139,16 @@ public class Enemy {
 	}
 
 	public boolean spawn() {
-		int ix = (int) (Math.random() * World.tiles.length);
-		int iy = (int) (Math.random() * World.tiles[0].length);
-		Tile spawnTile = World.tiles[ix][iy];
+		int ix = (int) (Math.random() * World.currentFloor.currentRoom.tiles.length);
+		int iy = (int) (Math.random() * World.currentFloor.currentRoom.tiles[0].length);
+		Tile spawnTile = World.currentFloor.currentRoom.tiles[ix][iy];
 		if (spawnTile.hasHitBox) {
 			return false;
 		} else {
 			try {
 				for (int i = iy; i <= iy + heightInTiles; i++) {
 					for (int ii = ix; ii <= ix + widthInTiles; ii++) {
-						if (World.tiles[i][ii].hasHitBox) {
+						if (World.currentFloor.currentRoom.tiles[i][ii].hasHitBox) {
 							return false;
 						}
 					}
@@ -160,7 +160,7 @@ public class Enemy {
 		}
 		y = spawnTile.x;
 		x = spawnTile.y;
-		World.enemiesToAdd.add(this);
+		World.currentFloor.currentRoom.enemiesToAdd.add(this);
 		return true;
 
 	}

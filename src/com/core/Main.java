@@ -20,7 +20,7 @@ public class Main {
 	public static volatile int tickSpeed = 10;
 	public static volatile int renderSpeed = 1;
 
-	public static volatile int tileSize = 50;
+	public static volatile int tileSize = 40;
 
 	public static volatile Point mousePos = new Point(0, 0);
 
@@ -41,7 +41,7 @@ public class Main {
 	}
 
 	public static void makeWindow() {
-		frame = new JFrame("Generic Side Scroller Beta v1.0");
+		frame = new JFrame("SuperMeatMan");
 		window = new Window();
 		frame.setUndecorated(true);
 		frame.setResizable(false);
@@ -113,13 +113,7 @@ public class Main {
 		frame.addMouseWheelListener(new MouseWheelListener() {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
-				if (isLevelSelectionScreen) {
-					for (MenuButton mb : currentMenu.buttons) {
-						if (mb.id.startsWith("level:")) {
-							mb.y -= e.getPreciseWheelRotation() * 25;
-						}
-					}
-				}
+
 			}
 		});
 
