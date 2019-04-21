@@ -27,6 +27,10 @@ public class Room {
     public static volatile ArrayList<Enemy> enemiesToAdd = new ArrayList<Enemy>();
     public static volatile ArrayList<Enemy> enemiesToRemove = new ArrayList<Enemy>();
 
+    public static volatile ArrayList<Tile> tempTiles = new ArrayList<Tile>();
+    public static volatile ArrayList<Tile> tempTilesToAdd = new ArrayList<Tile>();
+    public static volatile ArrayList<Tile> tempTilesToRemove = new ArrayList<Tile>();
+
     public Room(int id, int width, int height){
         this.id = id;
         this.width = width;
@@ -74,6 +78,9 @@ public class Room {
         for (Enemy e : enemies) {
             e.render(g);
         }
+        for (Tile t : tempTiles) {
+            t.render(g);
+        }
     }
     public void update() throws InterruptedException {
         for (Projectile p : projectiles) {
@@ -83,6 +90,10 @@ public class Room {
 
         for (Enemy e : enemies) {
             e.update();
+        }
+
+        for (Tile t : tempTiles) {
+            t.update();
         }
 
         for (Projectile p : projectilesToRemove) {
@@ -97,18 +108,26 @@ public class Room {
 
         for (Enemy e : enemiesToAdd) {
             enemies.add(e);
-            System.out.println("Adding: " +e);
         }
 
         for (Enemy e : enemiesToRemove) {
             enemies.remove(e);
-            System.out.println("Remove: " +e);
+        }
+
+        for (Tile t : tempTilesToAdd) {
+            tempTiles.add(t);
+        }
+
+        for (Tile t : tempTilesToRemove) {
+            tempTiles.remove(t);
         }
 
         projectilesToRemove.clear();
         projectilesToAdd.clear();
         enemiesToAdd.clear();
         enemiesToRemove.clear();
+        tempTilesToAdd.clear();
+        tempTilesToRemove.clear();
     }
 
 }

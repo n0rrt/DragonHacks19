@@ -200,7 +200,7 @@ public class Player {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			Projectile fireProjectile = new Projectile(x, y, 1*xDir, 1*yDir, attackWidth, attackHeight, attackDamage, false, true, false, 1500, fireImage);
+			Projectile fireProjectile = new Projectile(x, y, 6*xDir, 6*yDir, attackWidth, attackHeight, 2, false, true, false, 40, fireImage, "fire");
 			Main.world.currentFloor.currentRoom.projectilesToAdd.add(fireProjectile);
 		} else if(type == 1){
 			BufferedImage lightningImage = null;
@@ -209,7 +209,7 @@ public class Player {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			Projectile lightningProjectile = new Projectile(x, y, 1*xDir, 1*yDir, attackWidth, attackHeight, 4, true, true, true, 1500, lightningImage);
+			Projectile lightningProjectile = new Projectile(x, y, 6*xDir, 6*yDir, attackWidth, attackHeight, 4, false, true, true, 40, lightningImage, "lightning");
 			Main.world.currentFloor.currentRoom.projectilesToAdd.add(lightningProjectile);
 		} else if(type == 2){
 			BufferedImage windImage = null;
@@ -218,7 +218,7 @@ public class Player {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			Projectile windProjectile = new Projectile(x, y, 1*xDir, 1*yDir, attackWidth, attackHeight, attackDamage, true, true, true, 1500, windImage);
+			Projectile windProjectile = new Projectile(x, y, 6*xDir, 6*yDir, attackWidth, attackHeight, 0, false, true, true, 25, windImage, "wind");
 			Main.world.currentFloor.currentRoom.projectilesToAdd.add(windProjectile);
 		} else if(type == 3){
 			BufferedImage earthImage = null;
@@ -227,7 +227,7 @@ public class Player {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			Projectile earthProjectile = new Projectile(x, y, 1*xDir, 1*yDir, attackWidth, attackHeight, attackDamage, true, true, true, 1500, earthImage);
+			Projectile earthProjectile = new Projectile(x, y, 1*xDir, 1*yDir, attackWidth, attackHeight, attackDamage, false, true, true, 1500, earthImage, "earth");
 			Main.world.currentFloor.currentRoom.projectilesToAdd.add(earthProjectile);
 		}
 			canAttack = false;

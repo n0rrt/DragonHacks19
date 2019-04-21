@@ -75,7 +75,7 @@ public class Util {
 	}
 
 	public static void drawImage(Graphics2D g, BufferedImage img, int x, int y, int width, int height){
-		g.drawImage(img, (int)(x + Main.window.xOrigin*2), (int)(y + Main.window.yOrigin*2), width, height, null);
+		g.drawImage(img, (int)(x), (int)(y), width, height, null);
 	}
 
 }

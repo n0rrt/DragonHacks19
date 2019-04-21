@@ -27,6 +27,7 @@ public class Menu extends AbstractMenu {
 			public void run(){
 				try {
 					Main.world = new World();
+					Main.world.currentFloor.currentRoom.spawnEnemies();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

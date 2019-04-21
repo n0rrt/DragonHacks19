@@ -107,7 +107,6 @@ public class Enemy {
 	}
 
 	public void update() {
-		System.out.println(currentHealth);
 		if (currentHealth <= 0) {
 			Main.world.currentFloor.currentRoom.enemiesToRemove.add(this);
 		}

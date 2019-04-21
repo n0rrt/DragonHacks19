@@ -15,10 +15,13 @@ public class Projectile {
 	public BufferedImage image;
 	public Rectangle hitBox;
 	public int lifeTime;
+	public String type;
 
-	public Projectile(double x, double y, double xVel, double yVel, double width, double height, double damage, boolean canHarmPlayer, boolean canHarmEnemy, boolean hasGravity, int lifeTime, BufferedImage image) {
+	public Projectile(double x, double y, double xVel, double yVel, double width, double height, double damage, boolean canHarmPlayer, boolean canHarmEnemy, boolean hasGravity, int lifeTime, BufferedImage image, String type) {
 		this.x = x;
 		this.y = y;
+
+		this.type = type;
 
 		this.xVel = xVel;
 		this.yVel = yVel;
@@ -45,7 +48,7 @@ public class Projectile {
 	}
 
 	public void render(Graphics2D g) {
-		if (isOnScreen) {
+		if (isOnScreen && type != "earth") {
 			g.translate(x, y);
 			g.drawImage(image, 0, 0, (int) width, (int) height, null);
 			g.translate(-x, -y);
@@ -58,6 +61,9 @@ public class Projectile {
 
 	public void update() {
 		if (lifeTime <= 0) {
+			if(this.type == "fire"){
+				explodeFire();
+			}
 			Main.world.currentFloor.currentRoom.projectilesToRemove.add(this);
 			return;
 		}
@@ -74,9 +80,95 @@ public class Projectile {
 			}
 		}
 
+		if (!Main.world.worldHitBox.intersects(hitBox)){
+			if(this.type == "fire") {
+				explodeFire();
+				Main.world.currentFloor.currentRoom.projectilesToRemove.add(this);
+			}
+		}
+
 		for(Enemy e:Main.world.currentFloor.currentRoom.enemies){
-			if(e.topHitBox.intersects(hitBox) || e.bottomHitBox.intersects(hitBox) || e.leftHitBox.intersects(hitBox) || e.rightHitBox.intersects(hitBox)){
-				e.currentHealth -= damage;
+			if(this.type == "lightning"){
+				if(e.topHitBox.intersects(hitBox) || e.bottomHitBox.intersects(hitBox) || e.leftHitBox.intersects(hitBox) || e.rightHitBox.intersects(hitBox)){
+					e.currentHealth -= damage;
+					Main.world.currentFloor.currentRoom.projectilesToRemove.add(this);
+				}
+			}
+			if(this.type == "wind"){
+				if(e.topHitBox.intersects(hitBox)){
+					e.y += 160;
+					Main.world.currentFloor.currentRoom.projectilesToRemove.add(this);
+				}
+				if(e.bottomHitBox.intersects(hitBox)){
+					e.y -= 160;
+					Main.world.currentFloor.currentRoom.projectilesToRemove.add(this);
+				}
+				if(e.leftHitBox.intersects(hitBox)){
+					e.x += 160;
+					Main.world.currentFloor.currentRoom.projectilesToRemove.add(this);
+				}
+				if(e.rightHitBox.intersects(hitBox)){
+					e.x -= 160;
+					Main.world.currentFloor.currentRoom.projectilesToRemove.add(this);
+				}
+
+				e.x = e.x<40?80:e.x;
+				e.y = e.y<40?80:e.y;
+				e.x = e.x>640?640:e.x;
+				e.y = e.y>640?640:e.y;
+			}
+
+			if(this.type == "fire"){
+				if(e.topHitBox.intersects(hitBox) || e.bottomHitBox.intersects(hitBox) || e.leftHitBox.intersects(hitBox) || e.rightHitBox.intersects(hitBox)){
+					e.currentHealth -= damage;
+					explodeFire();
+					Main.world.currentFloor.currentRoom.projectilesToRemove.add(this);
+				}
+			}
+			if(this.type == "firedrop"){
+				if(e.topHitBox.intersects(hitBox) || e.bottomHitBox.intersects(hitBox) || e.leftHitBox.intersects(hitBox) || e.rightHitBox.intersects(hitBox)){
+					e.currentHealth -= damage;
+					Main.world.currentFloor.currentRoom.projectilesToRemove.add(this);
+				}
+			}
+			if(this.type == "earth"){
+				System.out.println("Making earth");
+				double t1x = Main.world.player.x;
+				double t1y = Main.world.player.y;
+				double t2x = Main.world.player.x;
+				double t2y = Main.world.player.y;
+
+				if(Main.world.player.xDir == 0){
+					t1x -= 20;
+					t2x += 20;
+					if(Main.world.player.yDir < 0){
+						t1y -= 80;
+						t2y -= 80;
+					} else{
+						t1y += 80;
+						t2y += 80;
+					}
+				} else{
+					t1y -= 20;
+					t2y += 20;
+					if(Main.world.player.xDir < 0){
+						t1x -= 80;
+						t2x -= 80;
+					} else{
+						t1x += 80;
+						t2x += 80;
+					}
+				}
+
+				System.out.println("Player: (" +Main.world.player.x +", " +Main.world.player.y +")");
+				System.out.println("Tile 1: (" +t1x +", " +t1y +")");
+				System.out.println("Tile 2: (" +t2x +", " +t2y +")");
+
+				Tile t1 = new Tile(image, true, (int)t1y, (int)t1x, 200);
+				Tile t2 = new Tile(image, true, (int)t2y, (int)t2x, 200);
+				Main.world.currentFloor.currentRoom.tempTilesToAdd.add(t1);
+				Main.world.currentFloor.currentRoom.tempTilesToAdd.add(t2);
+				Main.world.currentFloor.currentRoom.projectilesToRemove.add(this);
 			}
 		}
 
@@ -96,5 +188,26 @@ public class Projectile {
 			x += xVel;
 			hitBox.setBounds((int) x, (int) y, (int) width, (int) height);
 		}
+
+	}
+
+	public void explodeFire(){
+		Projectile f1 = new Projectile(x, y+41, 0, 5, width/2, height/2, damage/2, false, true, false, 5, image, "firedrop");
+		Projectile f2 = new Projectile(x, y-41, 0, -5, width/2, height/2, damage/2, false, true, false, 5, image, "firedrop");
+		Projectile f3 = new Projectile(x-41, y, -5, 0, width/2, height/2, damage/2, false, true, false, 5, image, "firedrop");
+		Projectile f4 = new Projectile(x+41, y, 5, 0, width/2, height/2, damage/2, false, true, false, 5, image, "firedrop");
+		Projectile f5 = new Projectile(x+41, y-41, 3, -3, width/2, height/2, damage/2, false, true, false, 5, image, "firedrop");
+		Projectile f6 = new Projectile(x-41, y-41, -3, -3, width/2, height/2, damage/2, false, true, false, 5, image, "firedrop");
+		Projectile f7 = new Projectile(x-41, y+41, -3, 3, width/2, height/2, damage/2, false, true, false, 5, image, "firedrop");
+		Projectile f8 = new Projectile(x+41, y+41, 3, 3, width/2, height/2, damage/2, false, true, false, 5, image, "firedrop");
+
+		Main.world.currentFloor.currentRoom.projectilesToAdd.add(f1);
+		Main.world.currentFloor.currentRoom.projectilesToAdd.add(f2);
+		Main.world.currentFloor.currentRoom.projectilesToAdd.add(f3);
+		Main.world.currentFloor.currentRoom.projectilesToAdd.add(f4);
+		Main.world.currentFloor.currentRoom.projectilesToAdd.add(f5);
+		Main.world.currentFloor.currentRoom.projectilesToAdd.add(f6);
+		Main.world.currentFloor.currentRoom.projectilesToAdd.add(f7);
+		Main.world.currentFloor.currentRoom.projectilesToAdd.add(f8);
 	}
 }
