@@ -1,7 +1,3 @@
-package com.controls;
-
-import com.core.Main;
-
 import java.util.Arrays;
 
 public class SpellCast {
@@ -88,8 +84,7 @@ public class SpellCast {
 				SerialParse.prevValues.clear();
 			}
 		}
-
-		Main.world.player.caster.castSpell(0);
+		
 		return 0;
 		
 

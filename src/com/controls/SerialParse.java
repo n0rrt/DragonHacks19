@@ -1,5 +1,3 @@
-package com.controls;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -167,10 +165,19 @@ public class SerialParse implements SerialPortEventListener{
 		}
 	}
 	
-	public static void serialParseInit() throws Exception
+	public static void main(String args[]) throws Exception
 	{
 		SerialParse m = new SerialParse();
 		m.initialize();
+		/*Thread t = new Thread()
+		{
+			public void run()
+			{
+				
+				
+			}
+		};
+		t.start();*/
 		System.out.println("Started");
 	}
 }
