@@ -67,7 +67,7 @@ public class MenuButton {
 			Main.currentMenu = null;
 			Main.loadMainMenu();
 		} else if (id.toLowerCase().trim().equals("exitgame")) {
-			System.exit(0);
+			clickAction.run();
 		} else if (id.toLowerCase().trim().equals("resumegame")) {
 			Main.pause();
 		} else if (id.toLowerCase().trim().equals("mainmenu")) {
