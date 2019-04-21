@@ -26,7 +26,7 @@ public class SpellCast {
 
 	static int[] posTuple = new int[3];
 
-	public static String trackSpell(int x, int y, int z) {
+	public static int trackSpell(int x, int y, int z) {
 		//int[] startPos = {0, 0, 0};
 		int[] threshold = { 1, 1, 1 };
 		
@@ -46,13 +46,13 @@ public class SpellCast {
 		int[][] fire = {fireA, fireB, fireC};
 		
 		int[] earthA = {4, 3, 3};
-		int[] earthB = {};
-		int[] earthC = {};
+		int[] earthB = {earthA[0] + 4, earthA[1] - 4, earthA[2] - 4};
+		int[] earthC = {earthB[0] +2, earthB[1] -1, earthB[2] - 1};
 		int[][] earth = {earthA, earthB, earthC};
 		
-		int[] windA = {};
-		int[] windB = {};
-		int[] windC = {};
+		int[] windA = {1, -4, -4};
+		int[] windB = {windA[0] + 2, windA[1], windA[2]};
+		int[] windC = {windB[0] + 4, windB[1] - 2, windB[2] -2};
 		int[][] wind = {windA, windB, windC};
 
 		for (int i = 0; i < 3; i++) {
@@ -60,14 +60,33 @@ public class SpellCast {
 					|| lessThan((sub(add(SerialParse.prevValues.get(i), threshold), lightning[i])), threshold)
 					|| lessThan((sub(sub(SerialParse.prevValues.get(i), threshold), lightning[i])), threshold)) {
 				lightConfidence++;
+				SerialParse.prevValues.set();
 			}
-//			else if()
-//			{
-//				
-//			}
+			if(SerialParse.prevValues.get(i).equals((fire[i]))
+					|| lessThan((sub(add(SerialParse.prevValues.get(i), threshold), fire[i])), threshold)
+					|| lessThan((sub(sub(SerialParse.prevValues.get(i), threshold), fire[i])), threshold))
+			{
+				fireConfidence++;
+				SerialParse.prevValues.clear();
+			}
+			if(SerialParse.prevValues.get(i).equals((earth[i]))
+					|| lessThan((sub(add(SerialParse.prevValues.get(i), threshold), earth[i])), threshold)
+					|| lessThan((sub(sub(SerialParse.prevValues.get(i), threshold), earth[i])), threshold))
+			{
+				earthConfidence++;
+				SerialParse.prevValues.clear();
+			}
+			if(SerialParse.prevValues.get(i).equals((wind[i]))
+					|| lessThan((sub(add(SerialParse.prevValues.get(i), threshold), wind[i])), threshold)
+					|| lessThan((sub(sub(SerialParse.prevValues.get(i), threshold), wind[i])), threshold))
+			{
+				windConfidence++;
+				SerialParse.prevValues.clear();
+			}
 		}
-
-		return "";
+		
+		return 0;
+		
 
 	}
 
