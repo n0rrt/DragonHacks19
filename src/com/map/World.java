@@ -84,7 +84,7 @@ public class World {
 //	}
 
 	public void loadPlayer(int x, int y) throws IOException {
-		player = new Player(Util.loadImg("res/player/player.png"), x, y);
+		player = new Player(x, y);
 	}
 
 	public void update() throws InterruptedException {

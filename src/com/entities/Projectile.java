@@ -49,8 +49,8 @@ public class Projectile {
 			g.translate(x, y);
 			g.drawImage(image, 0, 0, (int) width, (int) height, null);
 			g.translate(-x, -y);
-			g.setColor(Color.CYAN);
-			g.draw(hitBox);
+			//g.setColor(Color.CYAN);
+			//g.draw(hitBox);
 		}
 	}
 
@@ -74,7 +74,13 @@ public class Projectile {
 			}
 		}
 
-		if (isOnScreen) {
+		for(Enemy e:Main.world.currentFloor.currentRoom.enemies){
+			if(e.topHitBox.intersects(hitBox) || e.bottomHitBox.intersects(hitBox) || e.leftHitBox.intersects(hitBox) || e.rightHitBox.intersects(hitBox)){
+				e.currentHealth -= damage;
+			}
+		}
+
+		if (true) {
 			for (Tile[] ta : Main.world.currentFloor.currentRoom.tiles) {
 				for (Tile t : ta) {
 					if (t.hasHitBox) {
@@ -82,25 +88,6 @@ public class Projectile {
 							xVel = 0;
 							yVel = 0;
 							live = false;
-							if (shouldSpawn) {
-								// World.projectilesToAdd.add(new Projectile(t.x
-								// - 60, t.y - 60, 3.5 * (r.nextBoolean() ? -1 :
-								// 1), -5 - (+Math.random() + 1) * 2,
-								// Main.tileSize / 2, Main.tileSize / 2, 0,
-								// true, true, true, 150,
-								// Util.cachedImages.get((int) (Math.random() *
-								// (Util.cachedImages.size())))));
-								// World.projectilesToAdd.add(new Projectile(t.x
-								// - 60, t.y - 60, 3.5 * (r.nextBoolean() ? -1 :
-								// 1), -5 - (+Math.random() + 1) * 2,
-								// Main.tileSize / 2, Main.tileSize / 2, 0,
-								// true, true, true, 150,
-								// Util.cachedImages.get((int) (Math.random() *
-								// (Util.cachedImages.size())))));
-								// World.player.x = x-(int)World.player.width;
-								// World.player.y = y-(int)World.player.height;
-							}
-							shouldSpawn = false;
 						}
 					}
 				}

@@ -50,6 +50,17 @@ public class Room {
         }
     }
 
+    public void spawnEnemies(){
+        try {
+            Enemy e = new Enemy(Util.loadImg("res/enemy/red_wizard.png"), Main.world.currentFloor.currentRoom.tiles[14][14].x, Main.world.currentFloor.currentRoom.tiles[14][14].y);
+            Enemy e1 = new Enemy(Util.loadImg("res/enemy/red_wizard.png"), Main.world.currentFloor.currentRoom.tiles[0][0].x, Main.world.currentFloor.currentRoom.tiles[0][0].y);
+            enemiesToAdd.add(e);
+            enemiesToAdd.add(e1);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
     public void render(Graphics2D g) throws IOException {
         for (Tile[] ta : tiles) {
             for (Tile t : ta) {
@@ -86,10 +97,12 @@ public class Room {
 
         for (Enemy e : enemiesToAdd) {
             enemies.add(e);
+            System.out.println("Adding: " +e);
         }
 
         for (Enemy e : enemiesToRemove) {
             enemies.remove(e);
+            System.out.println("Remove: " +e);
         }
 
         projectilesToRemove.clear();

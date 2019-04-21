@@ -128,7 +128,8 @@ public class Main {
 			@Override
 			public void run(){
 				try {
-					Main.world = new World();
+					world = new World();
+					world.currentFloor.currentRoom.spawnEnemies();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

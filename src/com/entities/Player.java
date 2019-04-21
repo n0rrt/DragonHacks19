@@ -19,7 +19,7 @@ public class Player {
 	public volatile boolean isFalling, isStoppedTop, isStoppedBottom, isStoppedLeft, isStoppedRight, canAttack;
 	public int yDir, xDir, attackSpeed, attackCooldown, hitBoxBuffer = 3;
 
-	public Player(BufferedImage image, int x, int y) {
+	public Player(int x, int y) {
 
 		playerBuffer = 3;
 
@@ -48,10 +48,14 @@ public class Player {
 		maxHealth = 100.0;
 		currentHealth = maxHealth;
 
-		yDir = 0;
-		xDir = 1;
+		yDir = 1;
+		xDir = 0;
 
-		this.image = image;
+		try {
+			this.image = Util.loadImg("res/player/player_front.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		this.x = x + Main.window.xOrigin*2;
 		this.y = y + Main.window.yOrigin*2;
 
@@ -121,24 +125,44 @@ public class Player {
 			yVel = -effectiveSpeed;
 			yDir = -1;
 			xDir = 0;
+			try {
+				this.image = Util.loadImg("res/player/player_back.png");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		if (Window.keys[KeyEvent.VK_S] && !isStoppedBottom) {
 			yVel = effectiveSpeed;
 			yDir = 1;
 			xDir = 0;
+			try {
+				this.image = Util.loadImg("res/player/player_front.png");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		if (Window.keys[KeyEvent.VK_A] && !isStoppedLeft) {
 			xVel = -effectiveSpeed;
 			xDir = -1;
 			yDir = 0;
+			try {
+				this.image = Util.loadImg("res/player/player_left.png");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		if (Window.keys[KeyEvent.VK_D] && !isStoppedRight) {
 			xVel = effectiveSpeed;
 			xDir = 1;
 			yDir = 0;
+			try {
+				this.image = Util.loadImg("res/player/player_right.png");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		if (canAttack) {
@@ -185,7 +209,7 @@ public class Player {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			Projectile lightningProjectile = new Projectile(x, y, 1*xDir, 1*yDir, attackWidth, attackHeight, attackDamage, true, true, true, 1500, lightningImage);
+			Projectile lightningProjectile = new Projectile(x, y, 1*xDir, 1*yDir, attackWidth, attackHeight, 4, true, true, true, 1500, lightningImage);
 			Main.world.currentFloor.currentRoom.projectilesToAdd.add(lightningProjectile);
 		} else if(type == 2){
 			BufferedImage windImage = null;
