@@ -1,8 +1,8 @@
 package com.entities;
 
-import com.core.Main;
-import com.core.Util;
+import com.core.*;
 import com.core.Window;
+import com.core.SpellCaster;
 import com.map.Tile;
 import com.map.World;
 
@@ -18,6 +18,7 @@ public class Player {
 	public volatile Rectangle topHitBox, bottomHitBox, leftHitBox, rightHitBox;
 	public volatile boolean isFalling, isStoppedTop, isStoppedBottom, isStoppedLeft, isStoppedRight, canAttack;
 	public int yDir, xDir, attackSpeed, attackCooldown, hitBoxBuffer = 3;
+	public SpellCaster caster = new SpellCaster();
 
 	public Player(int x, int y) {
 
@@ -63,6 +64,13 @@ public class Player {
 		bottomHitBox = new Rectangle(x + hitBoxBuffer, y + (int) height - hitBoxBuffer, (int) width - hitBoxBuffer * 2, hitBoxBuffer);
 		leftHitBox = new Rectangle(x, y + hitBoxBuffer, hitBoxBuffer, (int) height - hitBoxBuffer * 2);
 		rightHitBox = new Rectangle(x + (int) width - hitBoxBuffer, y + hitBoxBuffer, hitBoxBuffer, (int) height - hitBoxBuffer * 2);
+
+		caster.addListener(new SpellListener() {
+			@Override
+			public void spellCasted(int id) {
+				makeAttack(id);
+			}
+		});
 
 	}
 
@@ -176,14 +184,14 @@ public class Player {
 		}
 
 		if (canAttack) {
-			if(Window.keys[KeyEvent.VK_0]) {
-				makeAttack(0);
-			} else if(Window.keys[KeyEvent.VK_1]) {
-				makeAttack(1);
+			if(Window.keys[KeyEvent.VK_1]) {
+				caster.castSpell(0);
 			} else if(Window.keys[KeyEvent.VK_2]) {
-				makeAttack(2);
+				caster.castSpell(1);
 			} else if(Window.keys[KeyEvent.VK_3]) {
-				makeAttack(3);
+				caster.castSpell(2);
+			} else if(Window.keys[KeyEvent.VK_4]) {
+				caster.castSpell(3);
 			}
 //			if(Window.keys[KeyEvent.VK_NUMPAD0]) {
 //				makeAttack(0);
