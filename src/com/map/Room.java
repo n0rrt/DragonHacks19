@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Room {
     public static volatile Tile[][] tiles = null;
 
-    public static int TILELEGNTH = 13;
+    public static final int TILELEGNTH = 13;
 
     public static volatile ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
     public static volatile ArrayList<Projectile> projectilesToRemove = new ArrayList<Projectile>();
@@ -25,7 +25,7 @@ public class Room {
         for( int r = 0; r < TILELEGNTH; r++)
             for ( int c = 0; c < TILELEGNTH; c++){
                 try{
-                    tiles[r][c] = new Tile(Util.loadImg("res/Time/tilePlaceHolder.png"),false,r,c);
+                    tiles[r][c] = new Tile(Util.loadImg("res/Time/tilePlaceHolder.png"),false,r* Tile.TILESIZE,c * Tile.TILESIZE);
                 }catch(IOException e1){
                     e1.printStackTrace();
                 }

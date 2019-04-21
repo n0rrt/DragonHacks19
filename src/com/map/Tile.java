@@ -12,6 +12,8 @@ public class Tile {
 	public volatile int x, y;
 	public volatile Rectangle hitBox;
 
+	public static final int TILESIZE = 40;
+
 	public Tile(BufferedImage image, boolean hasHitBox, int x, int y) {
 		this.image = image;
 		this.hasHitBox = hasHitBox;
