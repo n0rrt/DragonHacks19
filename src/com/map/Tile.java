@@ -26,7 +26,6 @@ public class Tile {
 	}
 
 	public void render(Graphics2D g) {
-		g.setColor(Color.RED);
 		Util.drawImage(g, image, x, y, Main.tileSize, Main.tileSize);
 	}
 }
