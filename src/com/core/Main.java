@@ -13,7 +13,8 @@ import java.io.IOException;
 public class Main {
 
 	public static Dimension monitorSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize();
-	public static Dimension screenSize = new Dimension(675, 750);
+	public static Dimension screenSize = new Dimension(600, 700);
+
 	public static JFrame frame = null;
 	public static Window window = null;
 
@@ -25,7 +26,6 @@ public class Main {
 	public static volatile Point mousePos = new Point(0, 0);
 
 	public static volatile World world = null;
-
 	public static volatile Menu currentMenu = null;
 
 	public static volatile boolean isPaused, isInPauseMenu, isInLevel, isLevelSelectionScreen;
@@ -64,7 +64,8 @@ public class Main {
 			public void keyPressed(KeyEvent e) {
 				Window.keys[e.getKeyCode()] = true;
 				if (Window.keys[KeyEvent.VK_ESCAPE] && isInLevel) {
-					pause();
+					System.exit(0);
+					//pause();
 				} else if (Window.keys[KeyEvent.VK_ESCAPE] && isPaused) {
 					pause();
 				}
@@ -126,6 +127,12 @@ public class Main {
 		Runnable selectAction = new Runnable() {
 			@Override
 			public void run(){
+				try {
+					Main.world = new World();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Main.isInLevel = true;
 				Main.currentMenu = null;
 			}
 		};
@@ -159,8 +166,8 @@ public class Main {
 //		currentMenu.addButton(Util.loadImg("MenuRes/levelSelectionBack.png"), "levelselectback", 0, screenSize.getHeight() - 100, 200, 100);
 //	}
 
-	public static void loadWorld(String level) throws IOException {
-		world = new World(level);
+	public static void loadWorld() throws IOException {
+		world = new World();
 	}
 
 	public static void pause() {

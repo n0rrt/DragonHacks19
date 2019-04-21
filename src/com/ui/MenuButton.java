@@ -46,7 +46,7 @@ public class MenuButton {
 		if (shouldRender) {
 			AffineTransform old = g.getTransform();
 
-			g.translate(x + Window.xOrigin, y + Window.yOrigin);
+			g.translate(x + Main.window.xOrigin, y + Main.window.yOrigin);
 			if (!isImage) {
 				g.setColor(Color.ORANGE.darker());
 				g.setFont(g.getFont().deriveFont((float) fontSize));

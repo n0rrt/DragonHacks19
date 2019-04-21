@@ -9,7 +9,7 @@ import java.util.ConcurrentModificationException;
 @SuppressWarnings("serial")
 public class Window extends JPanel {
 
-	public static volatile double xOrigin, yOrigin = 0;
+	public volatile double xOrigin = 40, yOrigin = 40;
 	public static volatile boolean[] keys = new boolean[65536];
 
 	public Window() {

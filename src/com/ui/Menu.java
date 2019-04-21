@@ -20,7 +20,7 @@ public class Menu {
 	}
 
 	public void render(Graphics2D g) {
-		g.drawImage(bg, (int) Window.xOrigin, (int) Window.yOrigin, Main.screenSize.width, Main.screenSize.height, null);
+		g.drawImage(bg, (int) Main.window.xOrigin, (int) Main.window.yOrigin, Main.screenSize.width, Main.screenSize.height, null);
 		for (int i = 0; i < buttons.size(); i++) {
 			AffineTransform t = g.getTransform();
 			MenuButton menuButton = buttons.get(i);

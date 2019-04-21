@@ -2,11 +2,7 @@ package com.map;
 
 import com.core.Main;
 import com.core.Util;
-import com.core.Window;
-import com.entities.Enemy;
 import com.entities.Player;
-import com.entities.Projectile;
-import com.ui.PlayerUI;
 
 import java.awt.*;
 import java.io.IOException;
@@ -14,27 +10,20 @@ import java.util.ArrayList;
 
 public class World {
 
-	public String level, path = "";
+	public volatile Player player = null;
 
-	public static Player player = null;
-	public static PlayerUI playerUI = null;
+	public volatile double gravity = 0;
 
-	public static volatile double gravity = 0;
+	public volatile Rectangle worldHitBox = null;
 
-	public static volatile Rectangle worldHitBox = null;
+	public volatile Floor currentFloor = null;
+	public volatile ArrayList<Floor> floors = new ArrayList<>();
 
-	public static volatile Room currentRoom = null;
-	public static volatile Floor currentFloor = null;
-	public static volatile ArrayList<Floor> floors = new ArrayList<>();
-
-	public World(String level) throws IOException {
-		this.level = level;
-		path = "Levels/" + this.level + "/";
-		//String[] levelInfo = parseLevelData();
-//		gravity = -(Double.parseDouble(levelInfo[2]) / (Main.tileSize / 10));
-		//loadTiles(path + "world/tiles.txt");
-		loadPlayer(path + "res/player/player.png", 0, 0);
-		worldHitBox = new Rectangle((int) Window.xOrigin - Main.tileSize, (int) Window.yOrigin - Main.tileSize, Main.screenSize.width + Main.tileSize, Main.screenSize.height + Main.tileSize);
+	public World() throws IOException {
+		genFloors();
+		currentFloor = floors.get(0);
+		worldHitBox = new Rectangle((int) Main.window.xOrigin - Main.tileSize, (int) Main.window.yOrigin - Main.tileSize, Main.screenSize.width + Main.tileSize, Main.screenSize.height + Main.tileSize);
+		loadPlayer(currentFloor.currentRoom.tiles[6][6].x, currentFloor.currentRoom.tiles[6][6].y);
 	}
 
 //	public String[] parseLevelData() throws IOException {
@@ -48,10 +37,20 @@ public class World {
 //		return levelData;
 //	}
 
+	public void genFloors(){
+		for(int i = 0; i < 10; i++){
+			Floor tempFloor = new Floor(i);
+			tempFloor.genRooms(1);
+			floors.add(tempFloor);
+		}
+	}
+
 	public void render(Graphics2D g) throws IOException {
-		g.translate(Window.xOrigin - 1, Window.yOrigin - 1);
-		g.drawImage(Util.loadImg(path + "/res/bg.png"), 0, 0, Main.screenSize.width + 2, Main.screenSize.height + 2, null);
-		g.translate(-(Window.xOrigin - 1), -(Window.yOrigin - 1));
+		//g.translate(Window.xOrigin - 1, Window.yOrigin - 1);
+		//g.drawImage(Util.loadImg("/res/level/levelBG.png"), 0, 0, Main.screenSize.width + 2, Main.screenSize.height + 2, null);
+		//g.translate(-(Window.xOrigin - 1), -(Window.yOrigin - 1));
+
+		currentFloor.render(g);
 
 		player.render(g);
 	}
@@ -83,19 +82,19 @@ public class World {
 //		}
 //	}
 
-	public void loadPlayer(String path, int x, int y) throws IOException {
-		player = new Player(Util.loadImg(path), x, y);
+	public void loadPlayer(int x, int y) throws IOException {
+		player = new Player(Util.loadImg("res/player/player.png"), x, y);
 	}
 
 	public void update() throws InterruptedException {
-		worldHitBox.setLocation((int) Window.xOrigin - Main.tileSize, (int) Window.yOrigin - Main.tileSize);
+		worldHitBox.setLocation((int) Main.window.xOrigin - Main.tileSize, (int) Main.window.yOrigin - Main.tileSize);
 		worldHitBox.setSize(Main.screenSize.width + Main.tileSize, Main.screenSize.height + Main.tileSize);
 
 		player.update();
 	}
 
-	public static void clear() {
-		player = null;
-		currentRoom = null;
+	public void clear() {
+		this.player = null;
+		this.currentFloor = null;
 	}
 }

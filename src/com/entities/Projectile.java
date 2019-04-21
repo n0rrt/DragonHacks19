@@ -1,5 +1,6 @@
 package com.entities;
 
+import com.core.Main;
 import com.map.Tile;
 import com.map.World;
 
@@ -57,24 +58,24 @@ public class Projectile {
 
 	public void update() {
 		if (lifeTime <= 0) {
-			World.currentFloor.currentRoom.projectilesToRemove.add(this);
+			Main.world.currentFloor.currentRoom.projectilesToRemove.add(this);
 			return;
 		}
 
 		lifeTime -= 1;
-		if ((hitBox.intersects(World.player.topHitBox) || hitBox.intersects(World.player.bottomHitBox) || hitBox.intersects(World.player.leftHitBox) || hitBox.intersects(World.player.rightHitBox)) && canHarmPlayer && live) {
+		if ((hitBox.intersects(Main.world.player.topHitBox) || hitBox.intersects(Main.world.player.bottomHitBox) || hitBox.intersects(Main.world.player.leftHitBox) || hitBox.intersects(Main.world.player.rightHitBox)) && canHarmPlayer && live) {
 			live = false;
-			if (World.player.currentHealth - damage >= World.player.maxHealth) {
-				World.player.currentHealth = World.player.maxHealth;
-			} else if (World.player.currentHealth - damage <= 0) {
-				World.player.currentHealth = 0;
+			if (Main.world.player.currentHealth - damage >= Main.world.player.maxHealth) {
+				Main.world.player.currentHealth = Main.world.player.maxHealth;
+			} else if (Main.world.player.currentHealth - damage <= 0) {
+				Main.world.player.currentHealth = 0;
 			} else {
-				World.player.currentHealth -= damage;
+				Main.world.player.currentHealth -= damage;
 			}
 		}
 
 		if (isOnScreen) {
-			for (Tile[] ta : World.currentFloor.currentRoom.tiles) {
+			for (Tile[] ta : Main.world.currentFloor.currentRoom.tiles) {
 				for (Tile t : ta) {
 					if (t.hasHitBox) {
 						if (t.hitBox.intersects(hitBox)) {
@@ -107,9 +108,6 @@ public class Projectile {
 			y += yVel;
 			x += xVel;
 			hitBox.setBounds((int) x, (int) y, (int) width, (int) height);
-			if (hasGravity) {
-				yVel -= World.gravity;
-			}
 		}
 	}
 }

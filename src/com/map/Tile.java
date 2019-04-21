@@ -1,6 +1,7 @@
 package com.map;
 
 import com.core.Main;
+import com.core.Util;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -25,10 +26,7 @@ public class Tile {
 	}
 
 	public void render(Graphics2D g) {
-		g.drawImage(image, x, y, Main.tileSize, Main.tileSize, null);
-		if(hasHitBox){
-			//g.setColor(Color.RED);
-			//g.draw(hitBox);
-		}
+		g.setColor(Color.RED);
+		Util.drawImage(g, image, x, y, Main.tileSize, Main.tileSize);
 	}
 }

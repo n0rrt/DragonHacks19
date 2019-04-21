@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.Buffer;
 import java.util.ArrayList;
 
 public class Util {
@@ -71,6 +72,10 @@ public class Util {
 			refinedArray[i] = currentRow.split(split);
 		}
 		return refinedArray;
+	}
+
+	public static void drawImage(Graphics2D g, BufferedImage img, int x, int y, int width, int height){
+		g.drawImage(img, (int)(x + Main.window.xOrigin*2), (int)(y + Main.window.yOrigin*2), width, height, null);
 	}
 
 }

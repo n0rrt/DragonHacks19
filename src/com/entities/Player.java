@@ -21,12 +21,12 @@ public class Player {
 
 		playerBuffer = 3;
 
-		width = Main.tileSize/1.5; //playerBuffer;
-		height = Main.tileSize/1.5; //* 1.25 - playerBuffer;
+		width = Main.tileSize*1.5; //playerBuffer;
+		height = Main.tileSize*1.5; //* 1.25 - playerBuffer;
 
 		collisionBuffer = 2;
 
-		baseSpeed = 1.75;
+		baseSpeed = 3;
 		effectiveSpeed = baseSpeed;
 		jumpPower = 8;
 
@@ -83,7 +83,7 @@ public class Player {
 		isStoppedBottom = false;
 		isStoppedLeft = false;
 		isStoppedRight = false;
-		for (Tile[] ta : World.currentFloor.currentRoom.tiles) {
+		for (Tile[] ta : Main.world.currentFloor.currentRoom.tiles) {
 			for (Tile t : ta) {
 				if (t.hasHitBox && t.isOnScreen) {
 					isStoppedTop = topHitBox.intersects(t.hitBox) || isStoppedTop;
@@ -106,23 +106,26 @@ public class Player {
 				y += collisionBuffer;
 			}
 		}
-		if (isFalling) {
-			yVel -= World.gravity;
+
+		//---=== MOVEMENT ===---
+		if (Window.keys[KeyEvent.VK_W] && !isStoppedTop) {
+			yVel = -effectiveSpeed;
 		}
 
-		if (Window.keys[KeyEvent.VK_W] && !isStoppedTop && isStoppedBottom) {
-			yVel = -jumpPower;
+		if (Window.keys[KeyEvent.VK_S] && !isStoppedTop) {
+			yVel = effectiveSpeed;
 		}
+
 		if (Window.keys[KeyEvent.VK_A] && !isStoppedLeft) {
 			xVel = -effectiveSpeed;
-			moving = -1;
 		}
+
 		if (Window.keys[KeyEvent.VK_D] && !isStoppedRight) {
 			xVel = effectiveSpeed;
-			moving = 1;
 		}
+
 		if (Window.keys[KeyEvent.VK_SPACE] && canAttack) {
-			World.currentFloor.currentRoom.projectilesToAdd.add(new Projectile(x, y, throwXPower * moving, throwYPower - (Math.random() + 1) * 2, attackWidth, attackHeight, attackDamage, true, true, true, 150, image));
+			Main.world.currentFloor.currentRoom.projectilesToAdd.add(new Projectile(x, y, throwXPower * moving, throwYPower - (Math.random() + 1) * 2, attackWidth, attackHeight, attackDamage, true, true, true, 150, image));
 			canAttack = false;
 			attackCooldown = attackSpeed;
 
@@ -130,10 +133,13 @@ public class Player {
 		x += xVel;
 		y += yVel;
 
+//		xVel = 0;
+//		yVel = 0;
+
 		isFalling = !isStoppedBottom;
 
-		Window.xOrigin = x - Main.screenSize.width / 2;
-		Window.yOrigin = y - (Main.screenSize.height / 3) * 2;
+//		Main.window.xOrigin = x - Main.screenSize.width / 2;
+//		Main.window.yOrigin = y - (Main.screenSize.height / 3) * 2;
 
 		topHitBox.setLocation((int) x + hitBoxBuffer, (int) y);
 		bottomHitBox.setLocation((int) x + hitBoxBuffer, (int) y + (int) height - hitBoxBuffer);

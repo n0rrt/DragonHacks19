@@ -65,11 +65,11 @@ public class Enemy {
 		attackHeight = Integer.parseInt(atts[16][1].trim());
 		baseSpeed = Integer.parseInt(atts[17][1].trim());
 		effectiveSpeed = baseSpeed;
-		try {
-			attackImage = Util.loadImg(world.path + "res/" + atts[18][1].trim());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			attackImage = Util.loadImg(world.path + "res/" + atts[18][1].trim());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		attackLifetime = Integer.parseInt(atts[19][1].trim());
 		despawnOnHit = Boolean.parseBoolean(atts[20][1].trim());
 	}
@@ -91,14 +91,14 @@ public class Enemy {
 
 	public void update() {
 		if (currentHealth <= 0) {
-			World.currentFloor.currentRoom.enemiesToRemove.add(this);
+			Main.world.currentFloor.currentRoom.enemiesToRemove.add(this);
 		}
 		isStoppedTop = false;
 		isStoppedBottom = false;
 		isStoppedLeft = false;
 		isStoppedRight = false;
 
-		for (Tile[] ta : World.currentFloor.currentRoom.tiles) {
+		for (Tile[] ta : Main.world.currentFloor.currentRoom.tiles) {
 			for (Tile t : ta) {
 				if (t.hasHitBox) {
 					isStoppedTop = topHitBox.intersects(t.hitBox) || isStoppedTop;
@@ -122,9 +122,6 @@ public class Enemy {
 				y += collisionBuffer;
 			}
 		}
-		if (isFalling) {
-			yVel -= World.gravity;
-		}
 
 		x += xVel;
 		y += yVel;
@@ -139,16 +136,16 @@ public class Enemy {
 	}
 
 	public boolean spawn() {
-		int ix = (int) (Math.random() * World.currentFloor.currentRoom.tiles.length);
-		int iy = (int) (Math.random() * World.currentFloor.currentRoom.tiles[0].length);
-		Tile spawnTile = World.currentFloor.currentRoom.tiles[ix][iy];
+		int ix = (int) (Math.random() * Main.world.currentFloor.currentRoom.tiles.length);
+		int iy = (int) (Math.random() * Main.world.currentFloor.currentRoom.tiles[0].length);
+		Tile spawnTile = Main.world.currentFloor.currentRoom.tiles[ix][iy];
 		if (spawnTile.hasHitBox) {
 			return false;
 		} else {
 			try {
 				for (int i = iy; i <= iy + heightInTiles; i++) {
 					for (int ii = ix; ii <= ix + widthInTiles; ii++) {
-						if (World.currentFloor.currentRoom.tiles[i][ii].hasHitBox) {
+						if (Main.world.currentFloor.currentRoom.tiles[i][ii].hasHitBox) {
 							return false;
 						}
 					}
@@ -160,7 +157,7 @@ public class Enemy {
 		}
 		y = spawnTile.x;
 		x = spawnTile.y;
-		World.currentFloor.currentRoom.enemiesToAdd.add(this);
+		Main.world.currentFloor.currentRoom.enemiesToAdd.add(this);
 		return true;
 
 	}
