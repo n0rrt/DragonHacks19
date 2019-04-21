@@ -132,7 +132,7 @@ public class Projectile {
 				}
 			}
 			if(this.type == "earth"){
-				System.out.println("Making earth");
+				//System.out.println("Making earth");
 				double t1x = Main.world.player.x;
 				double t1y = Main.world.player.y + Main.tileSize/2;
 				double t2x = Main.world.player.x;
@@ -160,9 +160,9 @@ public class Projectile {
 					}
 				}
 
-				System.out.println("Player: (" +Main.world.player.x +", " +Main.world.player.y +")");
-				System.out.println("Tile 1: (" +t1x +", " +t1y +")");
-				System.out.println("Tile 2: (" +t2x +", " +t2y +")");
+//				System.out.println("Player: (" +Main.world.player.x +", " +Main.world.player.y +")");
+//				System.out.println("Tile 1: (" +t1x +", " +t1y +")");
+//				System.out.println("Tile 2: (" +t2x +", " +t2y +")");
 
 				Tile t1 = new Tile(image, true, (int)t1x, (int)t1y, 200);
 				Tile t2 = new Tile(image, true, (int)t2x, (int)t2y, 200);

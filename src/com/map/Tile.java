@@ -13,6 +13,7 @@ public class Tile {
 	public volatile int x, y;
 	public volatile Rectangle hitBox;
 	public int lifeTime = 0;
+	public Runnable touchAction;
 
 	public Tile(BufferedImage image, boolean hasHitBox, int x, int y) {
 		this.image = image;
@@ -21,8 +22,20 @@ public class Tile {
 		this.y = y;//+80;
 
 		//if (hasHitBox) {
-			hitBox = new Rectangle(this.x, this.y, Main.tileSize, Main.tileSize);
-			
+		hitBox = new Rectangle(this.x, this.y, Main.tileSize, Main.tileSize);
+
+		//}
+	}
+
+	public Tile(BufferedImage image, boolean hasHitBox, int x, int y, Runnable touchAction) {
+		this.image = image;
+		this.hasHitBox = hasHitBox;
+		this.x = x;//+80;
+		this.y = y;//+80;
+		this.touchAction = touchAction;
+		//if (hasHitBox) {
+		hitBox = new Rectangle(this.x, this.y, Main.tileSize, Main.tileSize);
+
 		//}
 	}
 

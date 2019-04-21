@@ -93,6 +93,24 @@ public class Room {
         }
     }
     public void update() throws InterruptedException {
+
+        if(enemies.size() == 0){
+            Runnable ladderAction = new Runnable() {
+                @Override
+                public void run() {
+                    Main.isInLevel = false;
+                    Main.currentMenu = Main.menus[1];
+                }
+            };
+            try {
+                Tile ladderTile = new Tile(Util.loadImg("res/level/ladder.png"), true,580, 580, ladderAction);
+                tempTilesToAdd.add(ladderTile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
         for (Projectile p : projectiles) {
             p.isOnScreen = Main.world.worldHitBox.contains(p.x, p.y);
             p.update();

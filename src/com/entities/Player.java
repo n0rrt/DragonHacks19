@@ -107,6 +107,9 @@ public class Player {
 				isStoppedBottom = bottomHitBox.intersects(t.hitBox) || isStoppedBottom;
 				isStoppedLeft = leftHitBox.intersects(t.hitBox) || isStoppedLeft;
 				isStoppedRight = rightHitBox.intersects(t.hitBox) || isStoppedRight;
+				if((topHitBox.intersects(t.hitBox) || bottomHitBox.intersects(t.hitBox) || leftHitBox.intersects(t.hitBox) || rightHitBox.intersects(t.hitBox)) && t.touchAction != null){
+					t.touchAction.run();
+				}
 			}
 
 		isStoppedTop = !topHitBox.intersects(Main.world.worldHitBox) || isStoppedTop;
