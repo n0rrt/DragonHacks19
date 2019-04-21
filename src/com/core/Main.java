@@ -1,5 +1,6 @@
 package com.core;
 
+import com.controls.SerialParse;
 import com.map.World;
 import com.ui.Menu;
 import com.ui.MenuButton;
@@ -41,6 +42,12 @@ public class Main {
 
 		loadMainMenu();
 		makeWindow();
+
+		try {
+			SerialParse.serialParseInit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		render.start();
 		game.start();

@@ -127,8 +127,6 @@ public class Room {
 
         for (Projectile p : projectilesToAdd) {
             projectiles.add(p);
-            System.out.println(p);
-            System.out.println(projectiles.toString());
         }
 
         for (Enemy e : enemiesToAdd) {

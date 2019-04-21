@@ -1,5 +1,12 @@
-import java.util.Arrays;
+package com.controls;
+//
+//import com.core.Main;
 
+
+import com.core.Main;
+
+import java.util.ArrayList;
+import java.util.Collections;
 public class SpellCast {
 	static double velXi = 0;
 	static double velYi = 0;
@@ -25,31 +32,31 @@ public class SpellCast {
 	static final int EARTHID = 3;
 
 	static int[] posTuple = new int[3];
-
-	public static int trackSpell(int x, int y, int z) {
+	static ArrayList<Integer> confidenceValues= new ArrayList<Integer>();
+	public static void trackSpell(int x, int y, int z) {
 		//int[] startPos = {0, 0, 0};
 		int[] threshold = { 1, 1, 1 };
-		
+
 		int lightConfidence = 0;
 		int fireConfidence = 0;
 		int earthConfidence = 0;
 		int windConfidence = 0;
-		
+
 		int[] lightA = { 2, -2, -2 };
 		int[] lightB = { lightA[0], lightA[1] + 2, lightA[2] + 2 };
 		int[] lightC = { lightB[0], lightB[1] - 4, lightB[2] - 3 };
 		int[][] lightning = {lightA, lightB, lightC };
-		
+
 		int[] fireA = {0, -4, -4};
 		int[] fireB = {fireA[0], fireA[1] +3, fireA[2] + 3};
 		int[] fireC = {fireB[0], fireA[1] + 3, fireA[2] + 3};
 		int[][] fire = {fireA, fireB, fireC};
-		
+
 		int[] earthA = {4, 3, 3};
 		int[] earthB = {earthA[0] + 4, earthA[1] - 4, earthA[2] - 4};
 		int[] earthC = {earthB[0] +2, earthB[1] -1, earthB[2] - 1};
 		int[][] earth = {earthA, earthB, earthC};
-		
+
 		int[] windA = {1, -4, -4};
 		int[] windB = {windA[0] + 2, windA[1], windA[2]};
 		int[] windC = {windB[0] + 4, windB[1] - 2, windB[2] -2};
@@ -60,33 +67,41 @@ public class SpellCast {
 					|| lessThan((sub(add(SerialParse.prevValues.get(i), threshold), lightning[i])), threshold)
 					|| lessThan((sub(sub(SerialParse.prevValues.get(i), threshold), lightning[i])), threshold)) {
 				lightConfidence++;
-				SerialParse.prevValues.set();
+
 			}
 			if(SerialParse.prevValues.get(i).equals((fire[i]))
 					|| lessThan((sub(add(SerialParse.prevValues.get(i), threshold), fire[i])), threshold)
 					|| lessThan((sub(sub(SerialParse.prevValues.get(i), threshold), fire[i])), threshold))
 			{
 				fireConfidence++;
-				SerialParse.prevValues.clear();
+
 			}
 			if(SerialParse.prevValues.get(i).equals((earth[i]))
 					|| lessThan((sub(add(SerialParse.prevValues.get(i), threshold), earth[i])), threshold)
 					|| lessThan((sub(sub(SerialParse.prevValues.get(i), threshold), earth[i])), threshold))
 			{
 				earthConfidence++;
-				SerialParse.prevValues.clear();
+
 			}
 			if(SerialParse.prevValues.get(i).equals((wind[i]))
 					|| lessThan((sub(add(SerialParse.prevValues.get(i), threshold), wind[i])), threshold)
 					|| lessThan((sub(sub(SerialParse.prevValues.get(i), threshold), wind[i])), threshold))
 			{
 				windConfidence++;
-				SerialParse.prevValues.clear();
+
 			}
+
 		}
-		
-		return 0;
-		
+		confidenceValues.add(fireConfidence);
+		confidenceValues.add(lightConfidence);
+		confidenceValues.add(windConfidence);
+		confidenceValues.add(earthConfidence);
+
+		int maxVal = confidenceValues.indexOf(Collections.max(confidenceValues));
+
+		System.out.println(maxVal);
+
+		Main.world.player.caster.castSpell(maxVal);
 
 	}
 
