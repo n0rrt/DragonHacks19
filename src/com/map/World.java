@@ -89,6 +89,7 @@ public class World {
 
 	public void update() throws InterruptedException {
 		player.update();
+		currentFloor.update();
 	}
 
 	public void clear() {

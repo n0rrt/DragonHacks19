@@ -49,8 +49,8 @@ public class Projectile {
 			g.translate(x, y);
 			g.drawImage(image, 0, 0, (int) width, (int) height, null);
 			g.translate(-x, -y);
-			// g.setColor(Color.CYAN);
-			// g.draw(hitBox);
+			g.setColor(Color.CYAN);
+			g.draw(hitBox);
 		}
 	}
 

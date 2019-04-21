@@ -65,12 +65,6 @@ public class Room {
         }
     }
     public void update() throws InterruptedException {
-        for (Tile[] ta : tiles) {
-            for (Tile t : ta) {
-                t.isOnScreen = Main.world.worldHitBox.contains(t.x, t.y);
-            }
-        }
-
         for (Projectile p : projectiles) {
             p.isOnScreen = Main.world.worldHitBox.contains(p.x, p.y);
             p.update();
@@ -86,6 +80,8 @@ public class Room {
 
         for (Projectile p : projectilesToAdd) {
             projectiles.add(p);
+            System.out.println(p);
+            System.out.println(projectiles.toString());
         }
 
         for (Enemy e : enemiesToAdd) {

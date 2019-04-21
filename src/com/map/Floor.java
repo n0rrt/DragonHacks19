@@ -41,4 +41,12 @@ public class Floor {
     public void render(Graphics2D g) throws IOException {
         currentRoom.render(g);
     }
+
+    public void update(){
+        try {
+            currentRoom.update();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
