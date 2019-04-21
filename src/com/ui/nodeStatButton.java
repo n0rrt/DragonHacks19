@@ -1,5 +1,6 @@
 package com.ui;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class nodeStatButton extends MenuButton {
@@ -16,11 +17,14 @@ public class nodeStatButton extends MenuButton {
         gotActivated = false;
 
     }
+//    public void onClick() throws IOException {
+//        System.out.println("Hello");
+//        //if( parent == null || parent.gotActivated){
+//            super.onClick();
+//        //}
+//    }
 
-    @Override
-    public void onClick() throws IOException {
-        if( parent == null || parent.gotActivated){
-            super.onClick();
-        }
-    }
+//    public void render(Graphics2D g){
+//
+//    }
 }

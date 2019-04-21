@@ -249,6 +249,12 @@ public class Main {
 				try {
 					if (isInLevel && !isPaused) {
 						world.update();
+					} else{
+						try{
+							currentMenu.update(mousePos);
+						}catch( IOException e){
+							e.printStackTrace();
+						}
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
