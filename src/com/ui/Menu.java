@@ -40,7 +40,10 @@ public class Menu {
 		}
 	}
 
-	public void addButton(Object image, String id, double x, double y, double width, double height) {
-		buttons.add(new MenuButton(image, id, x, y, width, height));
+//	public void addButton(Object image, String id, double x, double y, double width, double height) {
+//		buttons.add(new MenuButton(image, id, x, y, width, height));
+//	}
+	public void addButton(MenuButton mb){
+		buttons.add(mb);
 	}
 }
